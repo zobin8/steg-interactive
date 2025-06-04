@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/app/ui/footer";
+import Header from "@/app/ui/header";
 
 const robotoSans = Roboto({
   variable: "--font-roboto-sans",
@@ -29,6 +30,7 @@ export default function RootLayout({
         className={`${robotoSans.variable} ${robotoMono.variable} antialiased`}
       >
         <div className="flex flex-col min-h-screen">
+          <Header></Header>
           <div className="grow">
           {children}
           </div>
