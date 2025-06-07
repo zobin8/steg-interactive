@@ -1,11 +1,15 @@
-import Link from 'next/link';
+"use client";
+
+import { Sidebar, SidebarItem, SidebarItemGroup, SidebarItems } from 'flowbite-react';
 
 export default function SideNav() {
   return (
-    <div className="flex h-full flex-col p-3">
-      <Link className="flex" href="/playgrounds">
-        Playgrounds
-      </Link>
-    </div>
+    <Sidebar aria-label="Playground navigation sidebar">
+      <SidebarItems>
+        <SidebarItemGroup>
+          <SidebarItem href='/playgrounds'>Introduction</SidebarItem>
+        </SidebarItemGroup>
+      </SidebarItems>
+    </Sidebar>
   );
 }
