@@ -1,3 +1,4 @@
+import { Button } from "flowbite-react";
 import Link from "next/link";
 
 export default function Home() {
@@ -8,13 +9,13 @@ export default function Home() {
           <h2 className="text-md">
             A collection of interactive playgrounds to learn about steganography and cryptography techniques throughout history.
           </h2>
-          <div className="p-4">
-          <Link
-            href="/playgrounds"
-            className="rounded-lg bg-purple-950 text-white font-bold p-3"
-          >
-            Get Started
-          </Link>
+          <div className="p-4 flex shrink justify-center">
+            <Button
+              href="/playgrounds"
+              className="p-3 font-bold text-md"
+            >
+              Get Started
+            </Button>
           </div>
         </main>
       </div>

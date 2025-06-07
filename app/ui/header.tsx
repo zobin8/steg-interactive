@@ -24,7 +24,7 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-purple-950 text-white py-3 px-8">
+    <header className="bg-primary-950 text-white py-3 px-8">
       <nav className="flex flex-row gap-8">
         <Link href="/" className="flex flex-row">
           <Image
