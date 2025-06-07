@@ -1,10 +1,12 @@
-import Link from "next/link";
+import { Footer, FooterCopyright, FooterLink, FooterLinkGroup } from "flowbite-react";
 
-export default function Footer() {
+export default function Component() {
   return (
-    <footer className="grid grid-flow-col justify-items-center bg-primary-950 text-white py-3 px-8 justify-between">
-      <span>Created by Zoe Krueger</span>
-      <Link className="underline" href="https://github.com/zobin8/steg-interactive">Source Code</Link>
-    </footer>
+    <Footer container className="dark rounded-none">
+      <FooterCopyright href="https://github.com/zobin8" by="Zoe Krueger" year={2025} />
+      <FooterLinkGroup>
+        <FooterLink href="https://github.com/zobin8/steg-interactive">Source Code</FooterLink>
+      </FooterLinkGroup>
+    </Footer>
   );
 }
