@@ -2,12 +2,12 @@
 
 import SideNav from "@/app/ui/playgrounds/sidenav";
 import { Button, Drawer, DrawerHeader, DrawerItems } from 'flowbite-react';
-import { GoSidebarExpand } from "react-icons/go";
 import { useState } from 'react';
+import { TbArrowBigLeft, TbArrowBigRight } from "react-icons/tb";
 
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => setIsOpen(false);
 
@@ -17,14 +17,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex-none bg-white shadow-md hidden md:block">
           <SideNav pad={true}/>
         </div>
-        <div className="flex grow bg-white shadow-md">
-            <div className="block md:hidden justify-center p-2">
+        <div className="flex flex-col grow bg-white shadow-md">
+          <div className="grid grid-flow-col p-3 justify-between">
+            <Button color="dark" outline aria-label="Previous page">
+              <TbArrowBigLeft />
+              Previous
+            </Button>
+            <div className="block md:hidden justify-center">
               <Button
-                className="fixed"
+                color="dark" outline
                 onClick={() => setIsOpen(true)}
                 aria-label="Show playground navigation"
               >
-                <GoSidebarExpand />
+                Page directory
               </Button>
               <Drawer open={isOpen} onClose={handleClose}>
                 <DrawerHeader title="Playgrounds" titleIcon={() => <></>} />
@@ -33,7 +38,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </DrawerItems>
               </Drawer>
             </div>
-            {children}
+            <Button color="dark" outline aria-label="Next page">
+              Next
+              <TbArrowBigRight />
+            </Button>
+          </div>
+          {children}
         </div>
       </div>
     </div>
