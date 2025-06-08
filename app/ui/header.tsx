@@ -3,8 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
-import clsx from 'clsx';
 import { Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
+
+import { makeNavText } from "@/app/lib/navutils";
 
 const links = [
   {href: '/', name: 'Home'},
@@ -12,16 +13,7 @@ const links = [
 ]
 
 export default function Header() {
-  const pathname = usePathname();
-
-  function navText(href: string): string {
-    return clsx(
-      '',
-      {
-        'underline': pathname == href,
-      },
-    );
-  };
+  const navText = makeNavText(usePathname());
 
   return (
     <header className="dark shadow-md">
