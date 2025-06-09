@@ -26,7 +26,7 @@ export default function Header() {
             className="flex max-h-10 max-w-10 mr-3"
             alt="Icon of steg-interactive, resembling a cipher wheel"
           ></Image>
-          <span className="text-white text-xl font-bold self-center">
+          <span className="dark:text-white text-xl font-bold self-center">
             Steg Interactive
           </span>
         </NavbarBrand>

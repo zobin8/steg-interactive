@@ -12,8 +12,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       flowbite-react:
-        specifier: ^0.11.7
-        version: 0.11.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.8)(typescript@5.8.3)
+        specifier: ^0.11.8
+        version: 0.11.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.8)(typescript@5.8.3)
       next:
         specifier: 15.3.3
         version: 15.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -1099,8 +1099,8 @@ packages:
   flatted@3.3.3:
     resolution: {integrity: sha512-GX+ysw4PBCz0PzosHDepZGANEuFCMLrnRTiEy9McGjmkCQYwRq4A/X786G/fjM/+OjsWSU1ZrY5qyARZmO/uwg==}
 
-  flowbite-react@0.11.7:
-    resolution: {integrity: sha512-Z8m+ycHEsXPacSAi8P4yYDeff7LvcHNwbGAnL/+Fpiv+6ZWDEAGY/YPKhUofZsZa837JTYrbcbmgjqQ1bpt51g==}
+  flowbite-react@0.11.8:
+    resolution: {integrity: sha512-ntaPUGaVqnN/dk0ivdc2UAhoCMVCyMhWj6uT9mkUueXxeSL3Q+/4opcLXMsuIrJdRrPJQIQI8ptd3AoGsxnQMg==}
     hasBin: true
     peerDependencies:
       react: ^18 || ^19
@@ -3095,7 +3095,7 @@ snapshots:
 
   flatted@3.3.3: {}
 
-  flowbite-react@0.11.7(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.8)(typescript@5.8.3):
+  flowbite-react@0.11.8(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(tailwindcss@4.1.8)(typescript@5.8.3):
     dependencies:
       '@floating-ui/core': 1.6.9
       '@floating-ui/react': 0.27.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
