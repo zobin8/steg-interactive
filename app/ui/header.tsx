@@ -5,9 +5,9 @@ import Link from "next/link";
 import { usePathname } from 'next/navigation';
 import { Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
 
-import { makeNavText } from "@/app/lib/navutils";
+import { makeNavText, NavItem } from "@/app/lib/navutils";
 
-const links = [
+const links: NavItem[] = [
   {href: '/', name: 'Home'},
   {href: '/playgrounds', name: 'Playgrounds'},
 ]
@@ -33,7 +33,7 @@ export default function Header() {
         <NavbarToggle />
         <NavbarCollapse>
           {links.map((link) => (
-            <NavbarLink key={link.href} as={Link} className={navText(link.href)} href={link.href}>{link.name}</NavbarLink>
+            <NavbarLink key={link.href} as={Link} className={navText(link)} href={link.href}>{link.name}</NavbarLink>
           ))}
         </NavbarCollapse>
       </Navbar>

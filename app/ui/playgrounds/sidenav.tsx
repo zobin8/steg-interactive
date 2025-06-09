@@ -3,10 +3,11 @@
 import { Sidebar, SidebarItem, SidebarItemGroup, SidebarItems } from 'flowbite-react';
 import { usePathname } from 'next/navigation';
 
-import { makeNavText } from '@/app/lib/navutils';
+import { makeNavText, NavItem } from '@/app/lib/navutils';
 
-const pages = [
-  {href: '', name: 'Introduction'},
+export const pages: NavItem[] = [
+  {href: '/playgrounds', name: 'Introduction'},
+  {href: '/playgrounds/simple-substitution', name: 'Simple Substitution'}
 ];
 
 export default function SideNav({pad}: {pad: boolean}) {
@@ -20,7 +21,7 @@ export default function SideNav({pad}: {pad: boolean}) {
       <SidebarItems>
         <SidebarItemGroup>
           {pages.map((page) => (
-            <SidebarItem key={page.href} className={navText(page.href)} href={`/playgrounds/${page.href}`}>{page.name}</SidebarItem>
+            <SidebarItem key={page.href} className={navText(page)} href={page.href}>{page.name}</SidebarItem>
           ))}
         </SidebarItemGroup>
       </SidebarItems>

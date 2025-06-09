@@ -1,15 +1,34 @@
 'use client';
 
-import SideNav from "@/app/ui/playgrounds/sidenav";
 import { Button, Drawer, DrawerHeader, DrawerItems } from 'flowbite-react';
 import { useState } from 'react';
 import { TbArrowBigLeft, TbArrowBigRight } from "react-icons/tb";
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+
+import { NavItem } from "@/app/lib/navutils";
+import SideNav, { pages } from "@/app/ui/playgrounds/sidenav";
+
+
+function getNextPage(pathName: string, reverse: boolean): NavItem|undefined
+{
+  const currentIndex = pages.findIndex((item) => item.href == pathName);
+  if (currentIndex < 0) return;
+
+  const nextIndex = reverse ? currentIndex - 1 : currentIndex + 1;
+  if (nextIndex < 0 || nextIndex >= pages.length) return;
+
+  return pages[nextIndex];
+}
 
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
-
   const handleClose = () => setIsOpen(false);
+
+  const pathName = usePathname();
+  const nextPage = getNextPage(pathName, false);
+  const prevPage = getNextPage(pathName, true);
 
   return (
     <div className="flex grow bg-slate-200 justify-center">
@@ -19,9 +38,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </div>
         <div className="flex flex-col grow bg-white shadow-md">
           <div className="grid grid-flow-col p-3 justify-between">
-            <Button color="dark" outline aria-label="Previous page">
-              <TbArrowBigLeft />
-              Previous
+            <Button
+              color="dark"
+              outline
+              as={Link}
+              disabled={prevPage === undefined}
+              href={prevPage?.href || '#'}
+              aria-label="Previous page"
+            >
+              <TbArrowBigLeft className='me-2'/>
+              {prevPage?.name || 'Previous'}
             </Button>
             <div className="block md:hidden justify-center">
               <Button
@@ -38,9 +64,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 </DrawerItems>
               </Drawer>
             </div>
-            <Button color="dark" outline aria-label="Next page">
-              Next
-              <TbArrowBigRight />
+            <Button
+              color="dark"
+              outline
+              as={Link}
+              disabled={nextPage === undefined}
+              href={nextPage?.href || '#'}
+              aria-label="Next page"
+            >
+              {nextPage?.name || 'Next'}
+              <TbArrowBigRight className='ms-2'/>
             </Button>
           </div>
           {children}
