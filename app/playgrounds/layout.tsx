@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Drawer, DrawerHeader, DrawerItems } from 'flowbite-react';
+import { Button, ButtonGroup, Drawer, DrawerHeader, DrawerItems } from 'flowbite-react';
 import { useState } from 'react';
 import { TbArrowBigLeft, TbArrowBigRight } from "react-icons/tb";
 import { usePathname } from 'next/navigation';
@@ -32,12 +32,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex grow bg-slate-200 justify-center">
+      <div className="block md:hidden">
+        <Drawer open={isOpen} onClose={handleClose}>
+          <DrawerHeader title="Playgrounds" titleIcon={() => <></>} />
+          <DrawerItems>
+            <SideNav pad={false}/>
+          </DrawerItems>
+        </Drawer>
+      </div>
       <div className="container flex-row flex gap-8">
         <div className="flex-none bg-white shadow-md hidden md:block">
           <SideNav pad={true}/>
         </div>
         <div className="flex flex-col grow bg-white shadow-md">
-          <div className="grid grid-flow-col p-3 justify-between">
+          <ButtonGroup className="mx-auto p-3 shadow-none">
             <Button
               color="dark"
               outline
@@ -49,21 +57,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <TbArrowBigLeft className='me-2'/>
               {prevPage?.name || 'Previous'}
             </Button>
-            <div className="block md:hidden justify-center">
-              <Button
-                color="dark" outline
-                onClick={() => setIsOpen(true)}
-                aria-label="Show playground navigation"
-              >
-                Page directory
-              </Button>
-              <Drawer open={isOpen} onClose={handleClose}>
-                <DrawerHeader title="Playgrounds" titleIcon={() => <></>} />
-                <DrawerItems>
-                  <SideNav pad={false}/>
-                </DrawerItems>
-              </Drawer>
-            </div>
+            <Button
+              className="block md:hidden"
+              color="dark" outline
+              onClick={() => setIsOpen(true)}
+              aria-label="Show playground navigation"
+            >
+              Directory
+            </Button>
             <Button
               color="dark"
               outline
@@ -75,7 +76,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               {nextPage?.name || 'Next'}
               <TbArrowBigRight className='ms-2'/>
             </Button>
-          </div>
+          </ButtonGroup>
           {children}
         </div>
       </div>
