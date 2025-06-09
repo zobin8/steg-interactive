@@ -17,7 +17,7 @@ export default function Header() {
 
   return (
     <header className="dark shadow-md">
-      <Navbar className="dark:bg-gray-900">
+      <Navbar className="">
         <NavbarBrand as={Link} href="/">
           <Image
             src="/icon.png"
@@ -26,7 +26,7 @@ export default function Header() {
             className="flex max-h-10 max-w-10 mr-3"
             alt="Icon of steg-interactive, resembling a cipher wheel"
           ></Image>
-          <span className="dark:text-white text-xl font-bold self-center">
+          <span className="text-white text-xl font-bold self-center">
             Steg Interactive
           </span>
         </NavbarBrand>
