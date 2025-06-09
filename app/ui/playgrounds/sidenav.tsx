@@ -7,7 +7,7 @@ import { makeNavText, NavItem } from '@/app/lib/navutils';
 
 export const pages: NavItem[] = [
   {href: '/playgrounds', name: 'Introduction'},
-  {href: '/playgrounds/simple-substitution', name: 'Simple Substitution'}
+  {href: '/playgrounds/simple-substitution', name: 'Simple Substitution'},
 ];
 
 export default function SideNav({pad}: {pad: boolean}) {

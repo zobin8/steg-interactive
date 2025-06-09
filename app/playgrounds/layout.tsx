@@ -32,7 +32,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex grow bg-slate-200 justify-center">
-      <div className="block md:hidden">
+      <div className="block lg:hidden">
         <Drawer open={isOpen} onClose={handleClose}>
           <DrawerHeader title="Playgrounds" titleIcon={() => <></>} />
           <DrawerItems>
@@ -41,7 +41,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </Drawer>
       </div>
       <div className="container flex-row flex gap-8">
-        <div className="flex-none bg-white shadow-md hidden md:block">
+        <div className="flex-none bg-white shadow-md hidden lg:block">
           <SideNav pad={true}/>
         </div>
         <div className="flex flex-col grow bg-white shadow-md">
@@ -58,7 +58,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               {prevPage?.name || 'Previous'}
             </Button>
             <Button
-              className="block md:hidden"
+              className="block lg:hidden"
               color="dark" outline
               onClick={() => setIsOpen(true)}
               aria-label="Show playground navigation"
