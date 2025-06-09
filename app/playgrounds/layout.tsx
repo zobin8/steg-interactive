@@ -47,7 +47,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="flex flex-col grow shadow-md p-3 rounded-sm bg-white dark:bg-gray-900 dark:text-white">
           <ButtonGroup className="mx-auto mb-3">
             <Button
-              color="alternative"
+              color="light"
               as={Link}
               disabled={prevPage === undefined}
               href={prevPage?.href || '#'}
@@ -58,14 +58,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Button>
             <Button
               className="block lg:hidden"
-              color="alternative"
+              color="light"
               onClick={() => setIsOpen(true)}
               aria-label="Show playground navigation"
             >
               Directory
             </Button>
             <Button
-              color="alternative"
+              color="light"
               as={Link}
               disabled={nextPage === undefined}
               href={nextPage?.href || '#'}
