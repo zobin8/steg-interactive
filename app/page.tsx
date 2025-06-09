@@ -2,8 +2,8 @@ import { Button } from "flowbite-react";
 
 export default function Home() {
   return (
-      <div className="flex grow justify-center">
-        <main className="flex shadow-md flex-col container text-center">
+      <div className="flex grow justify-center bg-slate-100">
+        <main className="flex shadow-md flex-col container text-center bg-white">
           <h1 className="text-7xl font-extrabold p-7">Steg Interactive</h1>
           <h2 className="text-md">
             A collection of interactive playgrounds to learn about steganography and cryptography techniques throughout history.

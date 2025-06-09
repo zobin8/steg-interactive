@@ -31,8 +31,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const prevPage = getNextPage(pathName, true);
 
   return (
-    <div className="flex grow justify-center p-3">
-      <div className="block lg:hidden">
+    <div className="flex grow justify-center p-3 bg-slate-100 dark:bg-slate-700">
+      <div className="block lg:hidden bg-white">
         <Drawer open={isOpen} onClose={handleClose}>
           <DrawerHeader title="Playgrounds" titleIcon={() => <></>} />
           <DrawerItems>
@@ -41,14 +41,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </Drawer>
       </div>
       <div className="container flex-row flex gap-8">
-        <div className="flex-none shadow-md hidden lg:block">
+        <div className="flex-none shadow-md hidden lg:block rounded-sm bg-white dark:bg-gray-900">
           <SideNav pad={true}/>
         </div>
-        <div className="flex flex-col grow shadow-md p-3 rounded-sm text-container">
+        <div className="flex flex-col grow shadow-md p-3 rounded-sm bg-white dark:bg-gray-900 dark:text-white">
           <ButtonGroup className="mx-auto mb-3">
             <Button
-              color="dark"
-              outline
+              color="alternative"
               as={Link}
               disabled={prevPage === undefined}
               href={prevPage?.href || '#'}
@@ -59,15 +58,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Button>
             <Button
               className="block lg:hidden"
-              color="dark" outline
+              color="alternative"
               onClick={() => setIsOpen(true)}
               aria-label="Show playground navigation"
             >
               Directory
             </Button>
             <Button
-              color="dark"
-              outline
+              color="alternative"
               as={Link}
               disabled={nextPage === undefined}
               href={nextPage?.href || '#'}

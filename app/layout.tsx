@@ -3,7 +3,7 @@ import { Roboto, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import Footer from "@/app/ui/footer";
 import Header from "@/app/ui/header";
-import { ThemeModeScript } from 'flowbite-react';
+import { createTheme, ThemeModeScript } from 'flowbite-react';
 
 const robotoSans = Roboto({
   variable: "--font-roboto-sans",
