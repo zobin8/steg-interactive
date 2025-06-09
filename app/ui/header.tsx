@@ -17,7 +17,7 @@ export default function Header() {
 
   return (
     <header className="dark shadow-md">
-      <Navbar>
+      <Navbar className="dark:bg-gray-900">
         <NavbarBrand as={Link} href="/">
           <Image
             src="/icon.png"

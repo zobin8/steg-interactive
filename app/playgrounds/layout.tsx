@@ -31,7 +31,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const prevPage = getNextPage(pathName, true);
 
   return (
-    <div className="flex grow bg-slate-200 justify-center">
+    <div className="flex grow bg-slate-200 dark:bg-gray-700 justify-center">
       <div className="block lg:hidden">
         <Drawer open={isOpen} onClose={handleClose}>
           <DrawerHeader title="Playgrounds" titleIcon={() => <></>} />
@@ -41,11 +41,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         </Drawer>
       </div>
       <div className="container flex-row flex gap-8">
-        <div className="flex-none bg-white shadow-md hidden lg:block">
+        <div className="flex-none bg-white dark:bg-gray-800 shadow-md hidden lg:block">
           <SideNav pad={true}/>
         </div>
-        <div className="flex flex-col grow bg-white shadow-md">
-          <ButtonGroup className="mx-auto p-3 shadow-none">
+        <div className="flex flex-col grow bg-white dark:bg-gray-800 dark:text-white shadow-md p-3">
+          <ButtonGroup className="mx-auto mb-3 dark:bg-gray-900">
             <Button
               color="dark"
               outline
@@ -66,7 +66,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               Directory
             </Button>
             <Button
-              color="dark"
+              color="light"
               outline
               as={Link}
               disabled={nextPage === undefined}

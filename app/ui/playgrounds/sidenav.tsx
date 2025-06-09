@@ -17,8 +17,8 @@ export default function SideNav({pad}: {pad: boolean}) {
   const navText = makeNavText(pathName);
 
   return (
-    <Sidebar aria-label="Playground navigation sidebar bg-white" className={padClass}>
-      <SidebarItems>
+    <Sidebar aria-label="Playground navigation sidebar" className={`dark:bg-gray-800 ${padClass}`}>
+      <SidebarItems className="rounded-none">
         <SidebarItemGroup>
           {pages.map((page) => (
             <SidebarItem key={page.href} className={navText(page)} href={page.href}>{page.name}</SidebarItem>
