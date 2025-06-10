@@ -1,4 +1,4 @@
 # steg-interactive
 A collection of interactive playgrounds to learn about steganography and cryptography techniques throughout history.
 
-This project is still under development.
+This project is still under development. Many pages may not be implemented.
