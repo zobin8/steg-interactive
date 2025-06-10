@@ -17,3 +17,7 @@ export function makeNavText(pathName: string): (item: NavItem)=>string {
 
   return navText;
 }
+
+export function stripLinkName(name: string): string {
+  return name.replace(/\W/g, '-').toLowerCase();
+}

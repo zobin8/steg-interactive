@@ -1,10 +1,10 @@
 'use-client';
 
+import { makeNavText, NavItem } from '@/app/lib/navutils';
+
 import { Sidebar, SidebarCollapse, SidebarItem, SidebarItemGroup, SidebarItems } from 'flowbite-react';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
-
-import { makeNavText, NavItem } from '@/app/lib/navutils';
 
 interface NavGroup {
   intro: NavItem

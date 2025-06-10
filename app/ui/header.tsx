@@ -1,11 +1,11 @@
 'use client';
 
+import { makeNavText, NavItem } from "@/app/lib/navutils";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
 import { Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
-
-import { makeNavText, NavItem } from "@/app/lib/navutils";
 
 const links: NavItem[] = [
   {href: '/', name: 'Home'},
