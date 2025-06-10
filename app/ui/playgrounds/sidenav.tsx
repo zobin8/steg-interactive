@@ -71,7 +71,7 @@ export default function SideNav({pad}: {pad: boolean}) {
     <Sidebar aria-label="Playground navigation sidebar" className={`${padClass}`}>
       <SidebarItems>
         {pageGroups.map((group) => (
-          <SidebarItemGroup>
+          <SidebarItemGroup key={group.intro.href}>
             <SidebarItem key={group.intro.href} className={navText(group.intro)} href={group.intro.href}>{group.intro.name}</SidebarItem>
             <SidebarCollapse label='Steganography' className={clsx('', {'hidden': group.steganography.length == 0})}>
               {group.steganography.map((page) => (
