@@ -1,5 +1,7 @@
 'use client';
 
+import Heading from "@/app/ui/playgrounds/heading";
+
 import { HR } from "flowbite-react";
 import Link from "next/link";
 import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
@@ -59,6 +61,7 @@ export function FootnoteList() {
 
   return (
     <>
+      <Heading level={2} name="Footnotes" className="mt-8"/>
       <HR className="my-0"/>
       <ol className="list-decimal list-inside">
         {context.notes.map((note, index) => (

@@ -1,6 +1,6 @@
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
-import { HR } from "flowbite-react";
+
 import Link from "next/link";
 
 export default function Component() {
@@ -36,7 +36,6 @@ export default function Component() {
           Feel free to skip around!
           While some concepts are continuations of earlier ideas, links will be provided to read up on what you missed.
         </p>
-        <Heading level={2} name="Footnotes" className="mt-8"/>
         <FootnoteList></FootnoteList>
       </div>
     </FootnoteProvider>
