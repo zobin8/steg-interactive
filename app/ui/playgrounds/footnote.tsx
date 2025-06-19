@@ -46,7 +46,7 @@ export function Footnote({ children }: { children: ReactNode }) {
 
   return (
     <sup id={`citation-${index}-ref`}>
-      <Link className="text-primary-800 me-1" href={`#citation-${index}-note`}>
+      <Link className="text-primary-800 hover:text-primary-700 me-1" href={`#citation-${index}-note`}>
         {`[${index}]`}
       </Link>
     </sup>
@@ -67,7 +67,7 @@ export function FootnoteList() {
         {context.notes.map((note, index) => (
           <li key={index}>
             <sup id={`citation-${index + 1}-note`}>
-              <Link className="text-primary-800 me-1" href={`#citation-${index + 1}-ref`}>
+              <Link className="text-primary-800 hover:text-primary-700 me-1" href={`#citation-${index + 1}-ref`}>
                 ^
               </Link>
             </sup>

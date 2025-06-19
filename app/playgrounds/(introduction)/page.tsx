@@ -19,7 +19,7 @@ export default function Component() {
           Cryptography is the practice of obscuring information from third parties.
           If an adversary finds a cryptographic message, they should not be able to decipher it.
           <Footnote>
-            This is known as <Link href="https://en.wikipedia.org/wiki/Kerckhoffs%27s_principle">Kerckhoff's Principle</Link>
+            This is known as <Link className="text-primary-800 hover:text-primary-700" href="https://en.wikipedia.org/wiki/Kerckhoffs%27s_principle">Kerckhoff's Principle</Link>
           </Footnote>
           In contemporary uses, it should be virtually impossible to decipher the original message.
           This guarantee should hold even if the adversary knows which technique is being used.
