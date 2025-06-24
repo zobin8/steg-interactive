@@ -1,5 +1,6 @@
 'use client'
 
+import CipherTable from "@/app/ui/playgrounds/ciphertable";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
 
@@ -41,11 +42,6 @@ export default function Component() {
 
   const shiftedSecret = shiftText(secret, secretKey);
 
-  var alphabetParts = [];
-  for (var start = 0; start < alphabet.length; start += 1) {
-    alphabetParts.push(alphabet.slice(start, start + 1));
-  }
-
   return (
     <FootnoteProvider>
       <div className="flex flex-col gap-3">
@@ -67,44 +63,10 @@ export default function Component() {
           Key: A <FaLongArrowAltRight className="inline" /> {shiftText('A', key1)}
         </p>
         <RangeSlider id="key1" sizing="lg" min={1} max={25} value={key1} onChange={(evt) => setKey1(Number(evt.target.value))} />
-        <div className="grid md:grid-cols-14 grid-cols-7">
-          <div className="col-span-2">
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableHeadCell>
-                    Plaintext:
-                  </TableHeadCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>
-                    Ciphertext:
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
-          {alphabetParts.map((plaintext) => (
-            <Table key={plaintext.join('')}>
-              <TableHead>
-                <TableRow>
-                  {plaintext.map((ch) => (
-                    <TableHeadCell key={ch}>{ch}</TableHeadCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody className="divide-y">
-                <TableRow>
-                  {plaintext.map((ch) => (
-                    <TableCell key={ch}>{shiftText(ch, key1)}</TableCell>
-                  ))}
-                </TableRow>
-              </TableBody>
-            </Table>
-          ))}
-        </div>
+        <CipherTable
+          plaintext={alphabet}
+          ciphertext={alphabet.map((ch) => shiftText(ch, key1))}
+        />
         <Heading level={2} name="Security" />
         <p>
           Since there are only 25 possible keys, it is rather easy to try all combinations until the text is readable.
