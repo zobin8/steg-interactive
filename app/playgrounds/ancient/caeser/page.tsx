@@ -9,6 +9,8 @@ import { useState } from "react";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const secret = 'AS ABOVE SO BELOW';
+const secretKey = 1 + Math.floor(Math.random() * 24);
 
 function shiftText(text: string, shift: number): string {
   text = text.toUpperCase();
@@ -29,20 +31,19 @@ function shiftText(text: string, shift: number): string {
 }
 
 export default function Component() {
-  const [key, setKey] = useState(1);
+  const [key1, setKey1] = useState(1);
+  const [key2, setKey2] = useState(1);
+
+  const shiftedSecret = shiftText(secret, secretKey);
 
   var alphabetParts = [];
-  for (var start = 0; start < alphabet.length; start += 13) {
-    alphabetParts.push(alphabet.slice(start, start + 13));
+  for (var start = 0; start < alphabet.length; start += 1) {
+    alphabetParts.push(alphabet.slice(start, start + 1));
   }
 
   return (
     <FootnoteProvider>
       <div className="flex flex-col gap-3">
-        <Alert color="warning">
-          <span className="font-medium me-1">Under Construction!</span>
-          Parts of this page are unfinished. Sections may be missing or incomplete.
-        </Alert>
         <Heading level={1} name="Caeser Cipher" />
         <p>
           Famously used by Julius Caeser, the Caeser cipher is a simple substitution cipher.
@@ -58,13 +59,30 @@ export default function Component() {
           Let's try an example. Pick a key by using the slider below, and watch the cipher table change.
         </p>
         <p>
-          Key: A <FaLongArrowAltRight className="inline" /> {shiftText('A', key)}
+          Key: A <FaLongArrowAltRight className="inline" /> {shiftText('A', key1)}
         </p>
-        <RangeSlider id="key1" sizing="lg" min={1} max={25} value={key} onChange={(evt) => setKey(Number(evt.target.value))} />
-        <p>Cipher table:</p>
-        <Table>
+        <RangeSlider id="key1" sizing="lg" min={1} max={25} value={key1} onChange={(evt) => setKey1(Number(evt.target.value))} />
+        <div className="grid md:grid-cols-14 grid-cols-7">
+          <div className="col-span-2">
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableHeadCell>
+                    Plaintext:
+                  </TableHeadCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>
+                    Ciphertext:
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </div>
           {alphabetParts.map((plaintext) => (
-            <>
+            <Table key={plaintext.join('')}>
               <TableHead>
                 <TableRow>
                   {plaintext.map((ch) => (
@@ -75,17 +93,45 @@ export default function Component() {
               <TableBody className="divide-y">
                 <TableRow>
                   {plaintext.map((ch) => (
-                    <TableCell key={ch}>{shiftText(ch, key)}</TableCell>
+                    <TableCell key={ch}>{shiftText(ch, key1)}</TableCell>
                   ))}
                 </TableRow>
               </TableBody>
-            </>
+            </Table>
           ))}
-        </Table>
+        </div>
         <Heading level={2} name="Security" />
         <p>
-
+          Since there are only 25 possible keys, it is rather easy to try all combinations until the text is readable.
+          Additionally, the ciphertext is very obviously encrypted, so there is little steganographic security.
+          Try it below:
         </p>
+        <p>
+          Key: A <FaLongArrowAltRight className="inline" /> {shiftText('A', key2)}
+        </p>
+        <RangeSlider id="key2" sizing="lg" min={1} max={25} value={key2} onChange={(evt) => setKey2(Number(evt.target.value))} />
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableHeadCell>
+                Ciphertext:
+              </TableHeadCell>
+              <TableHeadCell>
+                {shiftedSecret}
+              </TableHeadCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            <TableRow>
+              <TableCell>
+                Plaintext:
+              </TableCell>
+              <TableCell>
+                {shiftText(shiftedSecret, 26 - key2)}
+              </TableCell>
+            </TableRow>
+          </TableBody>
+        </Table>
         <FootnoteList></FootnoteList>
       </div>
     </FootnoteProvider>
