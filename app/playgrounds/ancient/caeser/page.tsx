@@ -9,8 +9,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-const secret = 'AS ABOVE SO BELOW';
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const secret = 'ASABOVESOBELOW';
 
 function shiftText(text: string, shift: number): string {
   text = text.toUpperCase();
@@ -65,7 +65,7 @@ export default function Component() {
         <RangeSlider id="key1" sizing="lg" min={1} max={25} value={key1} onChange={(evt) => setKey1(Number(evt.target.value))} />
         <CipherTable
           plaintext={alphabet}
-          ciphertext={alphabet.map((ch) => shiftText(ch, key1))}
+          ciphertext={shiftText(alphabet, key1)}
         />
         <Heading level={2} name="Security" />
         <p>
@@ -77,28 +77,11 @@ export default function Component() {
           Key: A <FaLongArrowAltRight className="inline" /> {shiftText('A', key2)}
         </p>
         <RangeSlider id="key2" sizing="lg" min={1} max={25} value={key2} onChange={(evt) => setKey2(Number(evt.target.value))} />
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableHeadCell>
-                Ciphertext:
-              </TableHeadCell>
-              <TableHeadCell>
-                {shiftedSecret}
-              </TableHeadCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            <TableRow>
-              <TableCell>
-                Plaintext:
-              </TableCell>
-              <TableCell>
-                {shiftText(shiftedSecret, 26 - key2)}
-              </TableCell>
-            </TableRow>
-          </TableBody>
-        </Table>
+        <CipherTable
+          plaintext={shiftText(shiftedSecret, 26 - key2)}
+          ciphertext={shiftedSecret}
+          reverse={true}
+        />
         <FootnoteList></FootnoteList>
       </div>
     </FootnoteProvider>

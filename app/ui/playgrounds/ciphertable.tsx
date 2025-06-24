@@ -1,8 +1,15 @@
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 
 export default function CipherTable(
-  {plaintext, ciphertext, reverse}: {plaintext: string[], ciphertext: string[], reverse?: boolean}
+  {plaintext, ciphertext, reverse}: {plaintext: string[]|string, ciphertext: string[]|string, reverse?: boolean}
 ) {
+  if (typeof plaintext == 'string') {
+    plaintext = plaintext.split('');
+  }
+  if (typeof ciphertext == 'string') {
+    ciphertext = ciphertext.split('');
+  }
+
   var labels = ['Plaintext', 'Ciphertext'];
   var contents = [plaintext, ciphertext];
 
@@ -36,13 +43,13 @@ export default function CipherTable(
         </Table>
       </div>
       {contents[0].map((text, index) => (
-        <Table key={text}>
+        <Table key={index}>
           <TableHead>
             <TableRow>
               <TableHeadCell>{text}</TableHeadCell>
             </TableRow>
           </TableHead>
-          <TableBody className="divide-y">
+          <TableBody>
             <TableRow>
               <TableCell>{contents[1][index]}</TableCell>
             </TableRow>
