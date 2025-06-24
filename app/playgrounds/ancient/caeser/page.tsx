@@ -3,14 +3,13 @@
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
 
-import { Alert, RangeSlider, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
+import { RangeSlider, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 const secret = 'AS ABOVE SO BELOW';
-const secretKey = 1 + Math.floor(Math.random() * 24);
 
 function shiftText(text: string, shift: number): string {
   text = text.toUpperCase();
@@ -33,6 +32,12 @@ function shiftText(text: string, shift: number): string {
 export default function Component() {
   const [key1, setKey1] = useState(1);
   const [key2, setKey2] = useState(1);
+  const [secretKey, setSecret] = useState(2);
+
+  // Set secret key on page load
+  useEffect(() => {
+    setSecret(1 + Math.floor(Math.random() * 24));
+  }, []);
 
   const shiftedSecret = shiftText(secret, secretKey);
 
