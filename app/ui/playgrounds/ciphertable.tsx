@@ -23,7 +23,7 @@ export default function CipherTable(
   }
 
   return (
-    <div className="grid md:grid-cols-14 grid-cols-7">
+    <div className="grid md:grid-cols-14 grid-cols-7 xl:grid-cols-20">
       <div className="col-span-2">
         <Table>
           <TableHead>
