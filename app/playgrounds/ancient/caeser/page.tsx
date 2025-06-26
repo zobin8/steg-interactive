@@ -4,7 +4,7 @@ import CipherTable from "@/app/ui/playgrounds/ciphertable";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
 
-import { RangeSlider, Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
+import { RangeSlider } from "flowbite-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FaLongArrowAltRight } from "react-icons/fa";
