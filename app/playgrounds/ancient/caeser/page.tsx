@@ -107,7 +107,7 @@ function TryItOut() {
 
   function createHandler(action: 'encode'|'decode'|'update') {
     function handleChange(event: ChangeEvent) {
-      var text = event.target.value;
+      var text = event.target.value.toUpperCase();
       var currentKey = key;
       if (action == 'update') {
         action = lastAction;

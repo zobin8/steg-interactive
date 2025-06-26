@@ -5,7 +5,8 @@ import { makeNavText, NavItem } from "@/app/lib/navutils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
-import { Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle } from "flowbite-react";
+import { Button, Dropdown, DropdownHeader, DropdownItem, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle, ToggleSwitch, useThemeMode } from "flowbite-react";
+import { MdSettings } from "react-icons/md";
 
 const links: NavItem[] = [
   {href: '/', name: 'Home'},
@@ -15,9 +16,11 @@ const links: NavItem[] = [
 export default function Header() {
   const navText = makeNavText(usePathname());
 
+  const themeHook = useThemeMode();
+
   return (
     <header className="dark shadow-md">
-      <Navbar className="">
+      <Navbar fluid>
         <NavbarBrand as={Link} href="/">
           <Image
             src="/icon.png"
@@ -30,7 +33,24 @@ export default function Header() {
             Steg Interactive
           </span>
         </NavbarBrand>
-        <NavbarToggle />
+        <div className="flex md:order-2">
+          <NavbarToggle />
+          <Dropdown
+            inline
+            arrowIcon={false}
+            label={<MdSettings className="dark:text-gray-400 dark:hover:text-white text-2xl" />}
+            dismissOnClick={false}
+          >
+            <DropdownHeader>Settings</DropdownHeader>
+            <DropdownItem as="div">
+              <ToggleSwitch
+                checked={themeHook.computedMode == 'dark'}
+                label="Dark Mode"
+                onChange={themeHook.toggleMode}
+              />
+            </DropdownItem>
+          </Dropdown>
+        </div>
         <NavbarCollapse>
           {links.map((link) => (
             <NavbarLink key={link.href} as={Link} className={navText(link)} href={link.href}>{link.name}</NavbarLink>
