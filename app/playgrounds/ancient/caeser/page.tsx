@@ -13,6 +13,8 @@ const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const secret = 'RJRSFMVJFSVCFN';
 const secretOffset = 17;
 
+// Methods
+
 function shiftText(text: string, shift: number): string {
   text = text.toUpperCase();
   var output = '';
@@ -31,11 +33,18 @@ function shiftText(text: string, shift: number): string {
   return output;
 }
 
-function KeySlider({value, setKey, id, onChange = undefined}: any) {
+// Subcomponents
+interface KeySliderProps {
+  value: number,
+  setKey: ((arg0: number) => void),
+  id: string,
+  onChange?: ((evt: ChangeEvent) => void)
+}
+function KeySlider({value, setKey, id, onChange = undefined}: KeySliderProps) {
   return (
     <>
       <p>
-        Key: A <FaLongArrowAltRight className="inline" /> {shiftText('A', value)}
+        Key: A <FaLongArrowAltRight className="inline" /> {shiftText('A', value)} (+{value})
       </p>
       <RangeSlider
         id={id}
@@ -45,7 +54,7 @@ function KeySlider({value, setKey, id, onChange = undefined}: any) {
         value={value}
         onChange={(evt) => {
           setKey(Number(evt.target.value));
-          onChange(evt);
+          if (onChange) onChange(evt);
         }}
       />
     </>
@@ -143,6 +152,8 @@ function TryItOut() {
     </>
   );
 }
+
+// Export
 
 export default function Component() {
   const [key3, setKey3] = useState(1);
