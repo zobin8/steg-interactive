@@ -1,8 +1,28 @@
+'use-client'
+
+import clsx from "clsx";
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
+import { MouseEvent, useState } from "react";
 
 export default function CipherTable(
   {plaintext, ciphertext, reverse}: {plaintext: string[]|string, ciphertext: string[]|string, reverse?: boolean}
 ) {
+  // State
+
+  var [selected, setSelected] = useState('');
+
+  function handleMouseEnter(event: MouseEvent<HTMLTableCellElement>) {
+    if (!event) return;
+  
+    setSelected(event.target.innerText);
+  }
+
+  function handleMouseLeave() {
+    setSelected('');
+  }
+
+  // Process Arguments
+
   if (typeof plaintext == 'string') {
     plaintext = plaintext.split('');
   }
@@ -22,8 +42,16 @@ export default function CipherTable(
     contents.reverse();
   }
 
+  // Style
+
+  function hoverStyle(text: string) {
+    return clsx('', {
+    'bg-primary-400 dark:bg-primary-800 text-black dark:text-white': text == selected,
+  });
+  }
+
   return (
-    <div className="grid md:grid-cols-14 grid-cols-7 xl:grid-cols-20">
+    <div className="grid md:grid-cols-14 grid-cols-7 xl:grid-cols-20" onMouseLeave={handleMouseLeave}>
       <div className="col-span-2">
         <Table>
           <TableHead>
@@ -46,12 +74,12 @@ export default function CipherTable(
         <Table key={index}>
           <TableHead>
             <TableRow>
-              <TableHeadCell>{text}</TableHeadCell>
+              <TableHeadCell onMouseEnter={handleMouseEnter} className={hoverStyle(text)}>{text}</TableHeadCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell>{contents[1][index]}</TableCell>
+              <TableCell onMouseEnter={handleMouseEnter} className={hoverStyle(contents[1][index])}>{contents[1][index]}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
