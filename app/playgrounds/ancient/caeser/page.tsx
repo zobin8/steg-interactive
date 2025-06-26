@@ -10,7 +10,8 @@ import { useEffect, useState } from "react";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const secret = 'ASABOVESOBELOW';
+const secret = 'RJRSFMVJFSVCFN';
+const secretOffset = 17;
 
 function shiftText(text: string, shift: number): string {
   text = text.toUpperCase();
@@ -22,7 +23,7 @@ function shiftText(text: string, shift: number): string {
       output += ch;
     } else {
       var index = ch.charCodeAt(0) - start;
-      var shiftIndex = (index + shift) % 26;
+      var shiftIndex = (index + shift + 26) % 26;
       output += String.fromCharCode(shiftIndex + start);
     }
   }
@@ -40,7 +41,8 @@ export default function Component() {
     setSecret(1 + Math.floor(Math.random() * 24));
   }, []);
 
-  const shiftedSecret = shiftText(secret, secretKey);
+  const plaintext = shiftText(secret, -secretOffset);
+  const shiftedSecret = shiftText(plaintext, secretKey);
 
   return (
     <FootnoteProvider>
@@ -78,7 +80,7 @@ export default function Component() {
         </p>
         <RangeSlider id="key2" sizing="lg" min={1} max={25} value={key2} onChange={(evt) => setKey2(Number(evt.target.value))} />
         <CipherTable
-          plaintext={shiftText(shiftedSecret, 26 - key2)}
+          plaintext={shiftText(shiftedSecret, -key2)}
           ciphertext={shiftedSecret}
           reverse={true}
         />
