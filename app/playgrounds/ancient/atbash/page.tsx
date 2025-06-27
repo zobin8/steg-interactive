@@ -8,7 +8,7 @@ import { TryItOut, TryItOutProvider } from "@/app/ui/playgrounds/tryitout";
 
 import { Alert, Label, Select } from "flowbite-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function atbash(x: number): number {
   return -1 - x;
