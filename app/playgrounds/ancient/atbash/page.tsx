@@ -4,6 +4,7 @@ import { affineCipher, alphabets } from "@/app/lib/substitution";
 import CipherTable from "@/app/ui/playgrounds/ciphertable";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
+import { TryItOut, TryItOutProvider } from "@/app/ui/playgrounds/tryitout";
 
 import { Alert } from "flowbite-react";
 import Link from "next/link";
@@ -12,6 +13,20 @@ const secret = '';
 
 function atbash(x: number): number {
   return -1 - x;
+}
+
+// Subcomponents
+
+function TryAtbash({alphabet}: {alphabet: string}) {
+  function encode(text: string) {
+    return affineCipher(text, alphabet, atbash);
+  }
+
+  return (
+    <TryItOutProvider encode={encode} decode={encode}>
+      <TryItOut></TryItOut>
+    </TryItOutProvider>
+  );
 }
 
 // Export
@@ -55,6 +70,9 @@ export default function Component() {
           If a text is known to be written in Atbash, it can be decoded instantly.
           Nonetheless, it remains influential in later substitution ciphers.
         </p>
+
+        <Heading level={2} name="Try it Out" />
+        <TryAtbash alphabet={alphabet} />
 
         <FootnoteList />
       </div>
