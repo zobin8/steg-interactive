@@ -6,10 +6,9 @@ import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/f
 import Heading from "@/app/ui/playgrounds/heading";
 import { TryItOut, TryItOutProvider } from "@/app/ui/playgrounds/tryitout";
 
-import { Alert } from "flowbite-react";
+import { Alert, Label, Select } from "flowbite-react";
 import Link from "next/link";
-
-const secret = '';
+import { useEffect, useState } from "react";
 
 function atbash(x: number): number {
   return -1 - x;
@@ -32,7 +31,7 @@ function TryAtbash({alphabet}: {alphabet: string}) {
 // Export
 
 export default function Component() {
-  const alphabet = alphabets.latin;
+  const [alphabet, setAlphabet] = useState(alphabets.latin);
 
   return (
     <FootnoteProvider>
@@ -57,6 +56,17 @@ export default function Component() {
           Since Atbash is a simple substitution cipher, every letter is replaced in-place by another letter.
           For Atbash, the encoded letter is derived by reversing the Alphabet. A becomes Z, and B becomes Y.
         </p>
+
+        <Heading level={2} name="Alphabet Selection" />
+        <p>
+          This page is available using multiple alphabets.
+          Atbash was originally designed for Hebrew, but a Latin variant is also provided for convenience.
+        </p>
+        <Label htmlFor="select-alphabet">Select Alphabet:</Label>
+        <Select id="select-alphabet" value={alphabet} onChange={(evt) => setAlphabet(evt.target.value)}>
+          <option value={alphabets.latin}>Latin</option>
+          <option value={alphabets.hebrew}>Hebrew</option>
+        </Select>
 
         <Heading level={2} name="Encryption" />
         <p>
