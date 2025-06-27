@@ -1,40 +1,24 @@
 'use client'
 
+import { affineCipher, alphabets } from "@/app/lib/substitution";
 import CipherTable from "@/app/ui/playgrounds/ciphertable";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
 
-import { Alert, Label, RangeSlider, Textarea } from "flowbite-react";
+import { Alert } from "flowbite-react";
 import Link from "next/link";
-import { ChangeEvent, useEffect, useState } from "react";
-import { FaLongArrowAltRight } from "react-icons/fa";
 
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const secret = '';
 
-// Methods
-
-function encode(text: string): string {
-  text = text.toUpperCase();
-  var output = '';
-
-  const start = 'A'.charCodeAt(0);
-  for (var ch of text) {
-    if (ch > 'Z' || ch < 'A') {
-      output += ch;
-    } else {
-      var index = ch.charCodeAt(0) - start;
-      var shiftIndex = 25 - index;
-      output += String.fromCharCode(shiftIndex + start);
-    }
-  }
-
-  return output;
+function atbash(x: number): number {
+  return -1 - x;
 }
 
 // Export
 
 export default function Component() {
+  var alphabet = alphabets.latin;
+
   return (
     <FootnoteProvider>
       <Alert color="warning">
@@ -63,7 +47,7 @@ export default function Component() {
         <p>
           In Atbash, there is no encryption key. Letters are always encoded in reverse order:
         </p>
-        <CipherTable plaintext={alphabet} ciphertext={encode(alphabet)}/>
+        <CipherTable plaintext={alphabet} ciphertext={affineCipher(alphabet, alphabet, atbash)}/>
 
         <Heading level={2} name="Security" />
         <p>

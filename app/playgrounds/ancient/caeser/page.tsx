@@ -1,5 +1,6 @@
 'use client'
 
+import { affineCipher, alphabets } from "@/app/lib/substitution";
 import CipherTable from "@/app/ui/playgrounds/ciphertable";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
@@ -9,29 +10,14 @@ import Link from "next/link";
 import { ChangeEvent, useEffect, useState } from "react";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const secret = 'RJRSFMVJFSVCFN';
 const secretOffset = 17;
 
 // Methods
-
 function shiftText(text: string, shift: number): string {
-  text = text.toUpperCase();
-  var output = '';
-
-  const start = 'A'.charCodeAt(0);
-  for (var ch of text) {
-    if (ch > 'Z' || ch < 'A') {
-      output += ch;
-    } else {
-      var index = ch.charCodeAt(0) - start;
-      var shiftIndex = (index + shift + 26) % 26;
-      output += String.fromCharCode(shiftIndex + start);
-    }
-  }
-
-  return output;
+  return affineCipher(text, alphabets.latin, (x) => x + shift);
 }
+
 
 // Subcomponents
 interface KeySliderProps {
@@ -68,8 +54,8 @@ function ExampleTable() {
     <>
       <KeySlider value={key} setKey={setKey} id="key1"/>
       <CipherTable
-        plaintext={alphabet}
-        ciphertext={shiftText(alphabet, key)}
+        plaintext={alphabets.latin}
+        ciphertext={shiftText(alphabets.latin, key)}
       />
     </>
   );
@@ -156,8 +142,6 @@ function TryItOut() {
 // Export
 
 export default function Component() {
-  const [key3, setKey3] = useState(1);
-
   return (
     <FootnoteProvider>
       <div className="flex flex-col gap-3">
