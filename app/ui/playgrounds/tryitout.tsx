@@ -26,8 +26,8 @@ export function TryItOutProvider({encode, decode, children}: TryItOutProps) {
   const [lastDirection, setLastDirection] = useState(1);
 
   function handleUpdate({newPlaintext, newCiphertext}: ChangedArguments) {
-    var direction = 0;
-    var text = '';
+    let direction = 0;
+    let text = '';
     if (newPlaintext !== undefined) {
       direction = 1;
       text = newPlaintext;

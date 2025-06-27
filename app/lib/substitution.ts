@@ -4,14 +4,14 @@ export const alphabets = {
 
 export function affineCipher(text: string, alphabet: string, func: ((x: number) => number)) {
   text = text.toUpperCase();
-  var output = '';
+  let output = '';
 
-  for (var ch of text) {
-    var index = alphabet.indexOf(ch);
+  for (const ch of text) {
+    const index = alphabet.indexOf(ch);
     if (index < 0) {
       output += ch;
     } else {
-      var newIndex = func(index);
+      let newIndex = func(index);
       while (newIndex < 0) newIndex += alphabet.length;
       newIndex = newIndex % alphabet.length;
       output += alphabet[newIndex];

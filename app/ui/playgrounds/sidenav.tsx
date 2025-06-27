@@ -59,13 +59,13 @@ const pageGroups: NavGroup[] = [
 ];
 
 function getNavItems(group: NavGroup): NavItem[] {
-  var items = [];
+  const items = [];
 
   if (group.intro) {
     items.push(group.intro);
   }
 
-  for (let key in group.items) {
+  for (const key in group.items) {
     items.push(...group.items[key]);
   }
 

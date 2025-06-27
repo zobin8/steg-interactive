@@ -5,7 +5,7 @@ import { makeNavText, NavItem } from "@/app/lib/navutils";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
-import { Button, Dropdown, DropdownHeader, DropdownItem, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle, ToggleSwitch, useThemeMode } from "flowbite-react";
+import { Dropdown, DropdownHeader, DropdownItem, Navbar, NavbarBrand, NavbarCollapse, NavbarLink, NavbarToggle, ToggleSwitch, useThemeMode } from "flowbite-react";
 import { MdSettings } from "react-icons/md";
 
 const links: NavItem[] = [

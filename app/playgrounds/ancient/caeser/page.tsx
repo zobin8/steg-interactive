@@ -92,7 +92,7 @@ function TryCaeserWithContext({value, setValue}: {value: number, setValue: ((arg
     throw new Error("Missing TryItOut context");
   }
 
-  useEffect(() => {context.handleUpdate({})}, [value]);
+  useEffect(() => {context.handleUpdate({})}, [context, value]);
 
   return (
     <>
@@ -136,7 +136,7 @@ export default function Component() {
 
         <Heading level={2} name="Encryption" />
         <p>
-          Let's try an example. Pick a key by using the slider below, and watch the cipher table change.
+          Let&apos;s try an example. Pick a key by using the slider below, and watch the cipher table change.
         </p>
         <ExampleTable/>
 

@@ -32,7 +32,7 @@ function TryAtbash({alphabet}: {alphabet: string}) {
 // Export
 
 export default function Component() {
-  var alphabet = alphabets.latin;
+  const alphabet = alphabets.latin;
 
   return (
     <FootnoteProvider>

@@ -3,7 +3,11 @@ import { stripLinkName } from "@/app/lib/navutils";
 import Link from "next/link";
 import { ReactElement } from "react";
 
-const elements: ReactElement[] = [<span></span>, <h1></h1>, <h2></h2>, <h3></h3>];
+const elements = {
+  1: <h1 />,
+  2: <h2 />,
+  3: <h3 />
+};
 const textSize: string[] = ['', 'text-2xl', 'text-xl', 'text-lg'];
 
 export default function Heading({level, name, className}: {

@@ -9,7 +9,7 @@ export default function CipherTable(
 ) {
   // State
 
-  var [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState('');
 
   function handleMouseEnter(event: MouseEvent<HTMLTableCellElement>) {
     if (!event) return;
@@ -30,16 +30,16 @@ export default function CipherTable(
     ciphertext = ciphertext.split('');
   }
 
-  var labels = ['Plaintext', 'Ciphertext'];
-  var contents = [plaintext, ciphertext];
+  let [label1, label2] = ['Plaintext', 'Ciphertext'];
+  let [contents1, contents2] = [plaintext, ciphertext];
 
   if (plaintext.length != ciphertext.length) {
     throw new Error('CipherTable length mismatch');
   }
 
   if (reverse) {
-    labels.reverse();
-    contents.reverse();
+    [label1, label2] = [label2, label1];
+    [contents1, contents2] = [contents2, contents1];
   }
 
   // Style
@@ -57,20 +57,20 @@ export default function CipherTable(
           <TableHead>
             <TableRow>
               <TableHeadCell>
-                {labels[0]}
+                {label1}
               </TableHeadCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
               <TableCell>
-                {labels[1]}
+                {label2}
               </TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </div>
-      {contents[0].map((text, index) => (
+      {contents1.map((text, index) => (
         <Table key={index}>
           <TableHead>
             <TableRow>
@@ -79,7 +79,7 @@ export default function CipherTable(
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell onMouseEnter={handleMouseEnter} className={hoverStyle(contents[1][index])}>{contents[1][index]}</TableCell>
+              <TableCell onMouseEnter={handleMouseEnter} className={hoverStyle(contents2[index])}>{contents2[index]}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

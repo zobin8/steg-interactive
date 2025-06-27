@@ -16,7 +16,7 @@ export default async function Page({
         Parts of this page are unfinished. Sections may be missing or incomplete.
       </Alert>
       <Heading level={1} name={page} />
-      <p>The page "{page}" is not yet implemented. Check back later!</p>
+      <p>The page &quot;{page}&quot; is not yet implemented. Check back later!</p>
     </div>
   );
 }
