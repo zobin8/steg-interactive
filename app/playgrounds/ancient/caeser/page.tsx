@@ -172,7 +172,7 @@ export default function Component() {
           </Footnote>
         </p>
 
-        <Heading level={2} name="Example" />
+        <Heading level={2} name="Encryption" />
         <p>
           Let's try an example. Pick a key by using the slider below, and watch the cipher table change.
         </p>
