@@ -4,10 +4,11 @@ import { affineCipher, alphabets } from "@/app/lib/substitution";
 import CipherTable from "@/app/ui/playgrounds/ciphertable";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
+import { TryItOut, TryItOutContext, TryItOutProvider } from "@/app/ui/playgrounds/tryitout";
 
-import { Label, RangeSlider, Textarea } from "flowbite-react";
+import { RangeSlider } from "flowbite-react";
 import Link from "next/link";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { FaLongArrowAltRight } from "react-icons/fa";
 
 const secret = 'RJRSFMVJFSVCFN';
@@ -22,11 +23,11 @@ function shiftText(text: string, shift: number): string {
 // Subcomponents
 interface KeySliderProps {
   value: number,
-  setKey: ((arg0: number) => void),
+  setValue: ((arg0: number) => void),
   id: string,
   onChange?: ((evt: ChangeEvent) => void)
 }
-function KeySlider({value, setKey, id, onChange = undefined}: KeySliderProps) {
+function KeySlider({value, setValue: setValue, id, onChange = undefined}: KeySliderProps) {
   return (
     <>
       <p>
@@ -39,7 +40,7 @@ function KeySlider({value, setKey, id, onChange = undefined}: KeySliderProps) {
         max={25}
         value={value}
         onChange={(evt) => {
-          setKey(Number(evt.target.value));
+          setValue(Number(evt.target.value));
           if (onChange) onChange(evt);
         }}
       />
@@ -52,7 +53,7 @@ function ExampleTable() {
 
   return (
     <>
-      <KeySlider value={key} setKey={setKey} id="key1"/>
+      <KeySlider value={key} setValue={setKey} id="key1"/>
       <CipherTable
         plaintext={alphabets.latin}
         ciphertext={shiftText(alphabets.latin, key)}
@@ -75,7 +76,7 @@ function DecodingChallenge() {
 
   return (
     <>
-      <KeySlider value={key} setKey={setKey} id="key2"/>
+      <KeySlider value={key} setValue={setKey} id="key2"/>
       <CipherTable
         plaintext={shiftText(shiftedSecret, -key)}
         ciphertext={shiftedSecret}
@@ -85,57 +86,34 @@ function DecodingChallenge() {
   );
 }
 
-function TryItOut() {
-  const [key, setKey] = useState(1);
-  const [plaintext, setPlaintext] = useState('');
-  const [ciphertext, setCiphertext] = useState('');
-  const [lastAction, setLastAction] = useState('encode');
-
-  function createHandler(action: 'encode'|'decode'|'update') {
-    function handleChange(event: ChangeEvent) {
-      var text = event.target.value.toUpperCase();
-      var currentKey = key;
-      if (action == 'update') {
-        action = lastAction;
-        currentKey = Number(event.target.value);
-        text = lastAction == 'encode' ? plaintext : ciphertext;
-      }
-
-      if (action == 'encode') {
-        setLastAction(action);
-        setPlaintext(text);
-        setCiphertext(shiftText(text, currentKey));
-      } else if (action == 'decode') {
-        setLastAction(action);
-        setCiphertext(text);
-        setPlaintext(shiftText(text, -currentKey));
-      }
-    }
-
-    return handleChange
+function TryCaeserWithContext({value, setValue}: {value: number, setValue: ((arg0: number) => void)}) {
+  const context = useContext(TryItOutContext);
+  if(!context) {
+    throw new Error("Missing TryItOut context");
   }
+
+  useEffect(() => {context.handleUpdate({})}, [value]);
 
   return (
     <>
-      <KeySlider value={key} setKey={setKey} id="key3" onChange={createHandler('update')}/>
-      <Label htmlFor="plaintext">Plaintext:</Label>
-      <Textarea
-        id="plaintext"
-        placeholder="Type here..."
-        rows={3}
-        value={plaintext}
-        onChange={createHandler('encode')}
+      <KeySlider
+        value={value}
+        setValue={setValue}
+        id="key3"
+        onChange={(evt) => setValue(Number(evt.target.value))}
       />
-      <Label htmlFor="ciphertext">Ciphertext:</Label>
-      <Textarea
-        id="ciphertext"
-        placeholder="Type here..."
-        rows={3}
-        value={ciphertext}
-        onChange={createHandler('decode')}
-      />
-      <FootnoteList></FootnoteList>
+      <TryItOut/>
     </>
+  )
+}
+
+function TryCaeser() {
+  const [key, setKey] = useState(1);
+
+  return (
+    <TryItOutProvider encode={(text) => shiftText(text, key)} decode={(text) => shiftText(text, -key)}>
+      <TryCaeserWithContext value={key} setValue={setKey}></TryCaeserWithContext>
+    </TryItOutProvider>
   );
 }
 
@@ -171,7 +149,9 @@ export default function Component() {
         <DecodingChallenge />
 
         <Heading level={2} name="Try it out" />
-        <TryItOut />
+        <TryCaeser />
+
+        <FootnoteList></FootnoteList>
       </div>
     </FootnoteProvider>
   );
