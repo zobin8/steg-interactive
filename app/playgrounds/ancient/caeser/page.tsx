@@ -25,7 +25,7 @@ interface KeySliderProps {
   value: number,
   setValue: ((arg0: number) => void),
   id: string,
-  onChange?: ((evt: ChangeEvent) => void)
+  onChange?: ((evt: ChangeEvent<HTMLInputElement>) => void)
 }
 function KeySlider({value, setValue: setValue, id, onChange = undefined}: KeySliderProps) {
   return (

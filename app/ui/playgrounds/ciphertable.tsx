@@ -11,10 +11,11 @@ export default function CipherTable(
 
   const [selected, setSelected] = useState('');
 
-  function handleMouseEnter(event: MouseEvent<HTMLTableCellElement>) {
+  function handleMouseEnter(event: MouseEvent<HTMLElement>) {
     if (!event) return;
   
-    setSelected(event.target.innerText);
+    const target = event.target as HTMLElement;
+    setSelected(target.innerText);
   }
 
   function handleMouseLeave() {

@@ -7,7 +7,6 @@ import { Button, ButtonGroup, Drawer, DrawerHeader, DrawerItems } from 'flowbite
 import { useState } from 'react';
 import { TbArrowBigLeft, TbArrowBigRight } from "react-icons/tb";
 import { usePathname } from 'next/navigation';
-import Link from 'next/link';
 
 
 function getNextPage(pathName: string, reverse: boolean): NavItem|undefined
@@ -48,7 +47,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <ButtonGroup className="mx-auto mb-3">
             <Button
               color="light"
-              as={Link}
               disabled={prevPage === undefined}
               href={prevPage?.href || '#'}
               aria-label="Previous page"
@@ -66,7 +64,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Button>
             <Button
               color="light"
-              as={Link}
               disabled={nextPage === undefined}
               href={nextPage?.href || '#'}
               aria-label="Next page"
