@@ -2,6 +2,6 @@
 
 for file in $(git diff --cached --name-only --diff-filter=ACM | grep ".ipynb$")
 do
-	jupyter nbconvert --clear-output --inplace "$file"
+    jupyter nbconvert --clear-output --inplace "$file"
     git add -u "$file"
 done
