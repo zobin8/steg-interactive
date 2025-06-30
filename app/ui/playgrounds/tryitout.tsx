@@ -57,6 +57,7 @@ export function TryItOutProvider({encode, decode, children}: TryItOutProps) {
   )
 }
 
+// TODO: Add keyboard support
 export function TryItOut() {
   const context = useContext(TryItOutContext);
   if(!context) {
