@@ -1,5 +1,5 @@
 import { alphabets } from "@/app/lib/substitution";
-import { Button, Kbd, Label, Textarea } from "flowbite-react";
+import { Kbd, Label, Textarea } from "flowbite-react";
 import { createContext, MouseEvent, ReactNode, useContext, useState } from "react";
 
 interface ChangedArguments {

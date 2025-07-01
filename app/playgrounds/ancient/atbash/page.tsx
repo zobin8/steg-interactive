@@ -6,7 +6,7 @@ import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/f
 import Heading from "@/app/ui/playgrounds/heading";
 import { TryItOut, TryItOutProvider } from "@/app/ui/playgrounds/tryitout";
 
-import { Alert, Label, Select } from "flowbite-react";
+import { Label, Select } from "flowbite-react";
 import Link from "next/link";
 import { useState } from "react";
 
