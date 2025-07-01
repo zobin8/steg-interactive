@@ -5,7 +5,21 @@ This project is still under development. Many pages may not be implemented.
 
 ## How to run
 
-You can run the main web application using `npm` or its variants:
+### Run from docker
+
+The web application is published as a docker image:
+
+```
+docker pull ghcr.io/zobin8/steg-interactive:latest
+docker run \
+  --publish 3000:3000 \
+  --env PORT=3000 \
+  ghcr.io/zobin8/steg-interactive:latest
+```
+
+### Run from Source
+
+You can run the web application using `npm` or its variants:
 
 ```
 # Download repository
@@ -26,8 +40,8 @@ Some additional steps are required to develop the application.
 
 ### Install
 ```
-npm install --production=false
-./install-hooks.sh
+pnpm install --production=false
+./scripts/install-hooks.sh
 
 pushd experiments
 python3 -m venv .venv
@@ -37,7 +51,7 @@ popd
 
 ### Run server
 ```
-npm run dev
+pnpm run dev
 ```
 
 ### Run notebooks
@@ -45,4 +59,9 @@ npm run dev
 cd experiments
 source .venv/bin/activate
 python -m jupyterlab
+```
+
+### Build docker image
+```
+docker build .
 ```
