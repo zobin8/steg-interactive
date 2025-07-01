@@ -1,5 +1,6 @@
-import { Label, Textarea } from "flowbite-react";
-import { createContext, ReactNode, useContext, useState } from "react";
+import { alphabets } from "@/app/lib/substitution";
+import { Button, Kbd, Label, Textarea } from "flowbite-react";
+import { createContext, MouseEvent, ReactNode, useContext, useState } from "react";
 
 interface ChangedArguments {
   newPlaintext?: string
@@ -57,30 +58,60 @@ export function TryItOutProvider({encode, decode, children}: TryItOutProps) {
   )
 }
 
-// TODO: Add keyboard support
-export function TryItOut() {
+function Keyboard({onKey, alphabet}: {onKey: ((key: string) => void), alphabet: string}) {
+  function onClick(evt: MouseEvent<HTMLElement>) {
+    const target = evt.target as HTMLElement;
+    onKey(target.innerText);
+  }
+
+  return (
+    <div className="flex-col" aria-label="Custom keyboard">
+      {alphabet.split('').map((ch) => 
+        <Kbd
+          key={ch}
+          className="text-center cursor-pointer hover:bg-gray-200 hover:dark:bg-gray-500 select-none"
+          aria-label={`insert ${ch}`}
+          onClick={onClick}
+        >
+          {ch}
+        </Kbd>
+      )}
+    </div>
+  )
+}
+
+export function TryItOut({alphabet = alphabets.latin}: {alphabet?: string}) {
   const context = useContext(TryItOutContext);
   if(!context) {
     throw new Error("Missing TryItOut context");
   }
 
+  function updatePlaintext(plaintext: string) {
+    context?.handleUpdate({newPlaintext: plaintext});
+  }
+  function updateCiphertext(ciphertext: string) {
+    context?.handleUpdate({newCiphertext: ciphertext});
+  }
+
   return (
     <>
       <Label htmlFor="plaintext">Plaintext:</Label>
+      <Keyboard alphabet={alphabet} onKey={(key) => updatePlaintext(context.plaintext + key)} />
       <Textarea
         id="plaintext"
         placeholder="Type here..."
         rows={3}
         value={context.plaintext}
-        onChange={(evt) => context.handleUpdate({newPlaintext: evt.target.value})}
+        onChange={(evt) => updatePlaintext(evt.target.value)}
       />
       <Label htmlFor="ciphertext">Ciphertext:</Label>
+      <Keyboard alphabet={alphabet} onKey={(key) => updateCiphertext(context.ciphertext + key)} />
       <Textarea
         id="ciphertext"
         placeholder="Type here..."
         rows={3}
         value={context.ciphertext}
-        onChange={(evt) => context.handleUpdate({newCiphertext: evt.target.value})}
+        onChange={(evt) => updateCiphertext(evt.target.value)}
       />
     </>
   );

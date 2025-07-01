@@ -23,7 +23,7 @@ function TryAtbash({alphabet}: {alphabet: string}) {
 
   return (
     <TryItOutProvider encode={encode} decode={encode}>
-      <TryItOut></TryItOut>
+      <TryItOut alphabet={alphabet}></TryItOut>
     </TryItOutProvider>
   );
 }
