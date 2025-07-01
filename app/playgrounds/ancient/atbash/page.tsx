@@ -35,10 +35,6 @@ export default function Component() {
 
   return (
     <FootnoteProvider>
-      <Alert color="warning">
-        <span className="font-medium me-1">Under Construction!</span>
-        Parts of this page are unfinished. Sections may be missing or incomplete.
-      </Alert>
       <div className="flex flex-col gap-3">
         <Heading level={1} name="Atbash Cipher" />
         <p>
@@ -59,7 +55,7 @@ export default function Component() {
 
         <Heading level={2} name="Alphabet Selection" />
         <p>
-          This page is available using multiple alphabets.
+          This page is available in multiple alphabets.
           Atbash was originally designed for Hebrew, but a Latin variant is also provided for convenience.
         </p>
         <Label htmlFor="select-alphabet">Select Alphabet:</Label>
