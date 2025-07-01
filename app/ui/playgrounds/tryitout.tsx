@@ -65,7 +65,7 @@ function Keyboard({onKey, alphabet}: {onKey: ((key: string) => void), alphabet: 
   }
 
   return (
-    <div className="flex flex-wrap" aria-label="Custom keyboard">
+    <div className="flex flex-wrap justify-center" aria-label="Custom keyboard">
       {alphabet.split('').map((ch) => 
         <Kbd
           key={ch}

@@ -46,25 +46,25 @@ export default function CipherTable(
   // Style
 
   function hoverStyle(text: string) {
-    return clsx('px-3 py-3 min-w-12 text-center', {
+    return clsx('px-2 py-2 min-w-8 text-center', {
     'bg-primary-400 dark:bg-primary-800 text-black dark:text-white': text == selected,
   });
   }
 
   return (
     <div className="flex flex-wrap" onMouseLeave={handleMouseLeave}>
-      <div className="col-span-2">
+      <div className="col-span-3">
         <Table>
           <TableHead>
             <TableRow>
-              <TableHeadCell className="px-3 py-3 min-w-24 text-center">
+              <TableHeadCell className="px-2 py-2 min-w-24 text-center">
                 {label1}
               </TableHeadCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell className="px-3 py-3 min-w-24 text-center">
+              <TableCell className="px-2 py-2 min-w-24 text-center">
                 {label2}
               </TableCell>
             </TableRow>
