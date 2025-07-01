@@ -31,6 +31,7 @@ docker tag $IMAGE:$VERSION $REMOTE/$IMAGE:$VERSION
 
 # Push to remote
 
+git push origin $VERSION
 docker push $REMOTE/$IMAGE:$VERSION
 
 # Push to latest
