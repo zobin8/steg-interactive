@@ -96,7 +96,6 @@ export function TryItOut({alphabet = alphabets.latin}: {alphabet?: string}) {
   return (
     <>
       <Label htmlFor="plaintext">Plaintext:</Label>
-      <Keyboard alphabet={alphabet} onKey={(key) => updatePlaintext(context.plaintext + key)} />
       <Textarea
         id="plaintext"
         placeholder="Type here..."
@@ -104,8 +103,8 @@ export function TryItOut({alphabet = alphabets.latin}: {alphabet?: string}) {
         value={context.plaintext}
         onChange={(evt) => updatePlaintext(evt.target.value)}
       />
+      <Keyboard alphabet={alphabet} onKey={(key) => updatePlaintext(context.plaintext + key)} />
       <Label htmlFor="ciphertext">Ciphertext:</Label>
-      <Keyboard alphabet={alphabet} onKey={(key) => updateCiphertext(context.ciphertext + key)} />
       <Textarea
         id="ciphertext"
         placeholder="Type here..."
@@ -113,6 +112,7 @@ export function TryItOut({alphabet = alphabets.latin}: {alphabet?: string}) {
         value={context.ciphertext}
         onChange={(evt) => updateCiphertext(evt.target.value)}
       />
+      <Keyboard alphabet={alphabet} onKey={(key) => updateCiphertext(context.ciphertext + key)} />
     </>
   );
 }
