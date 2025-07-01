@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+JUPYTER="$REPO_ROOT/experiments/.venv/bin/jupyter"
+
 for file in $(git diff --cached --name-only --diff-filter=ACM | grep ".ipynb$")
 do
-    jupyter nbconvert --clear-output --inplace "$file" || exit 1
+    "$JUPYTER" nbconvert --clear-output --inplace "$file" || exit 1
     git add -u "$file"
 done
