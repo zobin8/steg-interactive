@@ -44,7 +44,12 @@ export default function Component() {
           Some scholars argue that this was a literary device to represent an inversion of the power of words.
           <Footnote>
             Read
-            <Link className="text-primary-800 hover:text-primary-700 mx-1" href="https://faculty.washington.edu/snoegel/PDFs/articles/Noegel%2015%20-%20JBQ%201996a.pdf">Atbash in Jeremiah and Its Literary Significance</Link>
+            <Link
+              className="text-primary-800 hover:text-primary-700 mx-1"
+              href="https://faculty.washington.edu/snoegel/PDFs/articles/Noegel%2015%20-%20JBQ%201996a.pdf"
+            >
+              Atbash in Jeremiah and Its Literary Significance
+            </Link>
             for more information.
           </Footnote>
         </p>

@@ -130,7 +130,13 @@ export default function Component() {
           Then, each letter in the alphabet is shifted right by that many letters.
           This cipher is still popular today due to its simplicity.
           <Footnote>
-            See <Link className="text-primary-800 hover:text-primary-700" href="https://www.britannica.com/topic/Caesar-cipher">https://www.britannica.com/topic/Caesar-cipher</Link>
+            See
+            <Link
+              className="text-primary-800 hover:text-primary-700 mx-1"
+              href="https://www.britannica.com/topic/Caesar-cipher"
+            >
+              https://www.britannica.com/topic/Caesar-cipher
+            </Link>
           </Footnote>
         </p>
 

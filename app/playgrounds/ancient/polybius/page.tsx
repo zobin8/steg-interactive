@@ -28,7 +28,12 @@ export default function Component() {
           However, this ability to fractionalize the alphabet into smaller symbols was used throughout an entire family of ciphers.
           <Footnote>
             The paper
-            <Link className="text-primary-800 hover:text-primary-700 mx-1" href="https://www.researchgate.net/publication/342637897_Polybius_Square_in_Cryptography_A_Brief_Review_of_Literature">&quot;Polybius Square in Cryptography: A Brief Review of Literature&quot;</Link>
+            <Link
+              className="text-primary-800 hover:text-primary-700 mx-1"
+              href="https://www.researchgate.net/publication/342637897_Polybius_Square_in_Cryptography_A_Brief_Review_of_Literature"
+            >
+              &quot;Polybius Square in Cryptography: A Brief Review of Literature&quot;
+            </Link>
             covers this in depth.
           </Footnote>
         </p>
