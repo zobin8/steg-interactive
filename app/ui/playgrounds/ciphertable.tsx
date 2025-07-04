@@ -1,5 +1,3 @@
-'use-client'
-
 import clsx from "clsx";
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import { MouseEvent, useState } from "react";
@@ -47,8 +45,8 @@ export default function CipherTable(
 
   function hoverStyle(text: string) {
     return clsx('px-2 py-2 min-w-8 text-center', {
-    'bg-primary-400 dark:bg-primary-800 text-black dark:text-white': text == selected,
-  });
+      'bg-primary-400 dark:bg-primary-800 text-black dark:text-white': text == selected,
+    });
   }
 
   return (

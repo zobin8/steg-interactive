@@ -2,6 +2,7 @@
 
 export const alphabets = {
   latin: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+  latin25: 'ABCDEFGHIKLMNOPQRSTUVWXYZ',
   hebrew: '' +
     '\u05D0' + // aleph
     '\u05D1' + // bet

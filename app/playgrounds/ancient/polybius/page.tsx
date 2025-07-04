@@ -1,12 +1,15 @@
 'use client'
 
+import { alphabets } from "@/app/lib/substitution";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
+import PolybiusTable from "@/app/ui/playgrounds/polybius";
 import { Alert } from "flowbite-react";
 
 import Link from "next/link";
 
 // Methods
+const polybiusHeader = ['1', '2', '3', '4', '5'];
 
 // Subcomponents
 
@@ -42,6 +45,11 @@ export default function Component() {
         <p>
 
         </p>
+        <PolybiusTable
+          headerRow={polybiusHeader}
+          headerCol={polybiusHeader}
+          contents={alphabets.latin25.split('')}
+        />
 
         <Heading level={2} name="Use in Steganography" />
         <p>
