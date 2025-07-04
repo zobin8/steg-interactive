@@ -31,6 +31,8 @@ export default function PolybiusTable({headerRow, headerCol, contents}: Polybius
     setSelectedCol(-1);
   }
 
+  // Style
+
   function hoverStyle({row, col, extra}: {row?: number, col?: number, extra?: string}) {
     const matchRow = (row === undefined || row == selectedRow);
     const matchCol = (col === undefined || col == selectedCol);

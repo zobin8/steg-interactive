@@ -16,6 +16,9 @@ const polybiusHeader = ['1', '2', '3', '4', '5'];
 // Export
 
 export default function Component() {
+  var exampleContents = alphabets.latin25.split('');
+  exampleContents[exampleContents.indexOf('I')] = 'I/J';
+
   return (
     <FootnoteProvider>
       <div className="flex flex-col gap-3">
@@ -43,12 +46,12 @@ export default function Component() {
 
         <Heading level={2} name="Original Design" />
         <p>
-
+          
         </p>
         <PolybiusTable
           headerRow={polybiusHeader}
           headerCol={polybiusHeader}
-          contents={alphabets.latin25.split('')}
+          contents={exampleContents}
         />
 
         <Heading level={2} name="Use in Steganography" />
