@@ -3,6 +3,31 @@
 export const alphabets = {
   latin: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
   latin25: 'ABCDEFGHIKLMNOPQRSTUVWXYZ',
+  greek: '' +
+    '\u0391' + // alpha
+    '\u0392' + // beta
+    '\u0393' + // gamma
+    '\u0394' + // delta
+    '\u0395' + // epsilon
+    '\u0396' + // zeta
+    '\u0397' + // eta
+    '\u0398' + // theta
+    '\u0399' + // iota
+    '\u039A' + // kappa
+    '\u039B' + // lambda
+    '\u039C' + // mu
+    '\u039D' + // nu
+    '\u039E' + // xi
+    '\u039F' + // omicron
+    '\u03A0' + // pi
+    '\u03A1' + // rho
+    '\u03A3' + // sigma
+    '\u03A4' + // tau
+    '\u03A5' + // upsilon
+    '\u03A6' + // phi
+    '\u03A7' + // chi
+    '\u03A8' + // psi
+    '\u03A9',  // omega
   hebrew: '' +
     '\u05D0' + // aleph
     '\u05D1' + // bet
@@ -25,11 +50,15 @@ export const alphabets = {
     '\u05E7' + // kof
     '\u05E8' + // resh
     '\u05E9' + // shin
-    '\u05EA' // tav
+    '\u05EA',  // tav
 };
 
+export function standardize(text: string): string {
+  return text.toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 export function affineCipher(text: string, alphabet: string, func: ((x: number) => number)) {
-  text = text.toUpperCase();
+  text = standardize(text);
   let output = '';
 
   for (const ch of text) {
@@ -41,6 +70,22 @@ export function affineCipher(text: string, alphabet: string, func: ((x: number) 
       while (newIndex < 0) newIndex += alphabet.length;
       newIndex = newIndex % alphabet.length;
       output += alphabet[newIndex];
+    }
+  }
+
+  return output;
+}
+
+export function twoWayCipher(text: string, plainAlphabet: string[], cipherAlphabet: string[]): string[] {
+  text = standardize(text);
+  let output: string[] = [];
+
+  for (const ch of text) {
+    const index = plainAlphabet.indexOf(ch);
+    if (index < 0) {
+      output.push(ch);
+    } else {
+      output.push(cipherAlphabet[index]);
     }
   }
 

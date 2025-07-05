@@ -1,23 +1,40 @@
 'use client'
 
-import { alphabets } from "@/app/lib/substitution";
+import { alphabets, twoWayCipher } from "@/app/lib/substitution";
+import CipherTable from "@/app/ui/playgrounds/ciphertable";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
 import PolybiusTable from "@/app/ui/playgrounds/polybius";
-import { Alert } from "flowbite-react";
+import { Alert, Label, Select } from "flowbite-react";
 
 import Link from "next/link";
+import { useState } from "react";
+
+const polybiusHeader = ['1', '2', '3', '4', '5'];
+
+// 11, 12, 13, 14, 15, 21, ...
+const polybiusAlphabet = polybiusHeader.flatMap((ch1) => polybiusHeader.map((ch2) => ch1 + ch2));
 
 // Methods
-const polybiusHeader = ['1', '2', '3', '4', '5'];
 
 // Subcomponents
 
 // Export
 
 export default function Component() {
-  var exampleContents = alphabets.latin25.split('');
-  exampleContents[exampleContents.indexOf('I')] = 'I/J';
+  const [alphabet, setAlphabet] = useState(alphabets.latin25);
+
+  function getExampleContents(alphabet: string): string[] {
+    var exampleContents = alphabet.split('');
+    return exampleContents.map(item => item.replace('I', 'I/J'));
+  }
+
+  function getExampleText(alphabet: string): string {
+    if (alphabet == alphabets.greek) {
+      return 'Πυθαγόρας';
+    }
+    return 'Pythagoras';
+  }
 
   return (
     <FootnoteProvider>
@@ -44,14 +61,39 @@ export default function Component() {
           </Footnote>
         </p>
 
+        <Heading level={2} name="Alphabet Selection" />
+        <p>
+          This page is available in multiple alphabets.
+          The original polybius square was made in Greek, but Latin variants have also been used throughout history.
+        </p>
+        <Label htmlFor="select-alphabet">Select Alphabet:</Label>
+        <Select id="select-alphabet" value={alphabet} onChange={(evt) => setAlphabet(evt.target.value)}>
+          <option value={alphabets.latin25}>Latin</option>
+          <option value={alphabets.greek}>Greek</option>
+        </Select>
+
         <Heading level={2} name="Original Design" />
         <p>
-          
+          To construct a Polybius square, create a 5x5 table with the rows and columns labelled 1 through 5.
+          Then, write the letters of the alphabet in left-to-right reading order.
+          The resulting table should look like this:
         </p>
         <PolybiusTable
           headerRow={polybiusHeader}
           headerCol={polybiusHeader}
-          contents={exampleContents}
+          contents={getExampleContents(alphabet)}
+        />
+        <p>
+          Note that since the latin alphabet has 26 characters, I and J are merged into one cell.
+          The original greek did not have this issue.
+        </p>
+        <p>
+          To encode a phrase using the square, replace each letter with its column and row number.
+          The final ciphertext should consist only of a series of numbers.
+        </p>
+        <CipherTable
+          plaintext={getExampleText(alphabet)}
+          ciphertext={twoWayCipher(getExampleText(alphabet), alphabet.split(''), polybiusAlphabet)}
         />
 
         <Heading level={2} name="Use in Steganography" />
