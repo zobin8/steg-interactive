@@ -46,9 +46,7 @@ export function OriginalSection({alphabet}: {alphabet: string}) {
       <p>
         Note that since the latin alphabet has 26 characters, I and J are merged into one cell.
         The original greek did not have this issue.
-      </p>
-      <p>
-        To encode a phrase using the square, replace each letter with its column and row number.
+        To encode a phrase using the square, replace each letter with its row and column number.
         The final ciphertext should consist only of a series of numbers.
       </p>
       <CipherTable
