@@ -18,12 +18,7 @@ const polybiusAlphabet = polybiusHeader.flatMap((ch1) => polybiusHeader.map((ch2
 // Methods
 
 // Subcomponents
-
-// Export
-
-export default function Component() {
-  const [alphabet, setAlphabet] = useState(alphabets.latin25);
-
+export function OriginalSection({alphabet}: {alphabet: string}) {
   function getExampleContents(alphabet: string): string[] {
     var exampleContents = alphabet.split('');
     return exampleContents.map(item => item.replace('I', 'I/J'));
@@ -35,6 +30,41 @@ export default function Component() {
     }
     return 'Pythagoras';
   }
+
+  return (
+    <>
+      <p>
+        To construct a Polybius square, create a 5x5 table with the rows and columns labelled 1 through 5.
+        Then, write the letters of the alphabet in left-to-right reading order.
+        The resulting table should look like this:
+      </p>
+      <PolybiusTable
+        headerRow={polybiusHeader}
+        headerCol={polybiusHeader}
+        contents={getExampleContents(alphabet)}
+      />
+      <p>
+        Note that since the latin alphabet has 26 characters, I and J are merged into one cell.
+        The original greek did not have this issue.
+      </p>
+      <p>
+        To encode a phrase using the square, replace each letter with its column and row number.
+        The final ciphertext should consist only of a series of numbers.
+      </p>
+      <CipherTable
+        plaintext={getExampleText(alphabet)}
+        ciphertext={twoWayCipher(getExampleText(alphabet), alphabet.split(''), polybiusAlphabet)}
+      />
+    </>
+  );
+}
+
+// Export
+
+export default function Component() {
+  const [alphabet, setAlphabet] = useState(alphabets.latin25);
+
+  
 
   return (
     <FootnoteProvider>
@@ -73,28 +103,8 @@ export default function Component() {
         </Select>
 
         <Heading level={2} name="Original Design" />
-        <p>
-          To construct a Polybius square, create a 5x5 table with the rows and columns labelled 1 through 5.
-          Then, write the letters of the alphabet in left-to-right reading order.
-          The resulting table should look like this:
-        </p>
-        <PolybiusTable
-          headerRow={polybiusHeader}
-          headerCol={polybiusHeader}
-          contents={getExampleContents(alphabet)}
-        />
-        <p>
-          Note that since the latin alphabet has 26 characters, I and J are merged into one cell.
-          The original greek did not have this issue.
-        </p>
-        <p>
-          To encode a phrase using the square, replace each letter with its column and row number.
-          The final ciphertext should consist only of a series of numbers.
-        </p>
-        <CipherTable
-          plaintext={getExampleText(alphabet)}
-          ciphertext={twoWayCipher(getExampleText(alphabet), alphabet.split(''), polybiusAlphabet)}
-        />
+        <OriginalSection alphabet={alphabet}/>
+        
 
         <Heading level={2} name="Use in Steganography" />
         <p>
