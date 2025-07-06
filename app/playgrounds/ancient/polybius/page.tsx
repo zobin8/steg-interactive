@@ -10,7 +10,7 @@ import { TryItOut, TryItOutContext, TryItOutProvider } from "@/app/ui/playground
 import { Alert } from "flowbite-react";
 
 import Link from "next/link";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 
 const polybiusHeader = ['1', '2', '3', '4', '5'];
 
@@ -36,7 +36,7 @@ function joinCipher(cipher: (arg0: string) => string[]): ((arg0: string) => stri
 
 // Subcomponents
 
-export function OriginalSection({alphabet}: {alphabet: string[]}) {
+function OriginalSection({alphabet}: {alphabet: string[]}) {
   function getExampleContents(alphabet: string[]): string[] {
     return alphabet.map(item => item.replace('I', 'I/J'));
   }

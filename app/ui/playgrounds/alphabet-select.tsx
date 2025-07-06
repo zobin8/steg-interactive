@@ -10,8 +10,7 @@ interface ComponentProps {
   setAlphabet: (arg0: string[]) => void,
 }
 export default function AlphabetSelect({options, children, alphabet, setAlphabet}: ComponentProps) {
-
-  var friendlyNames = new Map<string[], string>();
+  const friendlyNames = new Map<string[], string>();
   for (const [key, value] of Object.entries(alphabets)) {
     const stripped = key.replaceAll(/[^a-zA-Z]/g, '');
     const friendly = stripped[0].toUpperCase() + stripped.slice(1);
@@ -28,7 +27,7 @@ export default function AlphabetSelect({options, children, alphabet, setAlphabet
       <Select
         id="select-alphabet"
         value={options.indexOf(alphabet)}
-        onChange={(evt) => setAlphabet(options[evt.target.value])}
+        onChange={(evt) => setAlphabet(options[Number(evt.target.value)])}
       >
         {options.map((option, index) => (
           <option key={index} value={index}>

@@ -80,9 +80,9 @@ export function affineCipher(text: string, alphabet: string[], func: ((x: number
 
 export function twoWayCipher(text: string, plainAlphabet: string[], cipherAlphabet: string[], step: number = 1): string[] {
   text = standardize(text);
-  let output: string[] = [];
+  const output: string[] = [];
 
-  for (var textIndex = 0; textIndex < text.length; textIndex += step) {
+  for (let textIndex = 0; textIndex < text.length; textIndex += step) {
     const ch = text.slice(textIndex, textIndex + step);
     const plainIndex = plainAlphabet.indexOf(ch);
     if (plainIndex < 0) {
