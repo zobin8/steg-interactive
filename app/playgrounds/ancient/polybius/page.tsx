@@ -6,10 +6,11 @@ import CipherTable from "@/app/ui/playgrounds/ciphertable";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
 import PolybiusTable from "@/app/ui/playgrounds/polybius";
+import { TryItOut, TryItOutContext, TryItOutProvider } from "@/app/ui/playgrounds/tryitout";
 import { Alert } from "flowbite-react";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const polybiusHeader = ['1', '2', '3', '4', '5'];
 
@@ -17,8 +18,24 @@ const polybiusHeader = ['1', '2', '3', '4', '5'];
 const polybiusAlphabet = polybiusHeader.flatMap((ch1) => polybiusHeader.map((ch2) => ch1 + ch2));
 
 // Methods
+function makeEncoderDecoder(alphabet: string) {
+  function encode(text: string) {
+    return twoWayCipher(text, alphabet.split(''), polybiusAlphabet);
+  }
+
+  function decode(text: string) {
+    return twoWayCipher(text, polybiusAlphabet, alphabet.split(''));
+  }
+
+  return {encode, decode}
+}
+
+function joinCipher(cipher: (arg0: string) => string[]): ((arg0: string) => string) {
+  return (arg0) => cipher(arg0).join('');
+}
 
 // Subcomponents
+
 export function OriginalSection({alphabet}: {alphabet: string}) {
   function getExampleContents(alphabet: string): string[] {
     var exampleContents = alphabet.split('');
@@ -31,6 +48,8 @@ export function OriginalSection({alphabet}: {alphabet: string}) {
     }
     return 'Pythagoras';
   }
+
+  const ciphers = makeEncoderDecoder(alphabet);
 
   return (
     <>
@@ -52,10 +71,34 @@ export function OriginalSection({alphabet}: {alphabet: string}) {
       </p>
       <CipherTable
         plaintext={getExampleText(alphabet)}
-        ciphertext={twoWayCipher(getExampleText(alphabet), alphabet.split(''), polybiusAlphabet)}
+        ciphertext={ciphers.encode(getExampleText(alphabet))}
         highlightFullCol={true}
       />
     </>
+  );
+}
+
+function TryPolybiusWithContext() {
+  const context = useContext(TryItOutContext);
+  if(!context) {
+    throw new Error("Missing TryItOut context");
+  }
+
+  // TODO: Add key selection
+  return (
+    <>
+      <TryItOut/>
+    </>
+  )
+}
+
+function TryPolybius({alphabet}: {alphabet: string}) {
+  const ciphers = makeEncoderDecoder(alphabet);
+
+  return (
+    <TryItOutProvider encode={joinCipher(ciphers.encode)} decode={joinCipher(ciphers.decode)}>
+      <TryPolybiusWithContext></TryPolybiusWithContext>
+    </TryItOutProvider>
   );
 }
 
@@ -102,7 +145,7 @@ export default function Component() {
         <OriginalSection alphabet={alphabet}/>
         
 
-        <Heading level={2} name="Use in Steganography" />
+        <Heading level={2} name="Uses" />
         <p>
           
         </p>
@@ -113,9 +156,7 @@ export default function Component() {
         </p>
 
         <Heading level={2} name="Try it Out" />
-        <p>
-          
-        </p>
+        <TryPolybius alphabet={alphabet}/>
 
         <FootnoteList></FootnoteList>
       </div>
