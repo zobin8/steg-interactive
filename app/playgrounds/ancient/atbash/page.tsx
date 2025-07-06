@@ -54,7 +54,14 @@ export default function Component() {
           </Footnote>
         </p>
         <p>
-          Since Atbash is a simple substitution cipher, every letter is replaced in-place by another letter.
+          It could be argued that Atbash is not a cryptographic protocol.
+          It was not primarily used to hide information from other people.
+          Instead, Atbash encoding seemed to have literary or religious significance.
+          As we will see, however, that is not a hard distinction we can make throughout history.
+          Cryptography was often used for purposes other than simply hiding information from other people.
+        </p>
+        <p>
+          Atbash is a simple substitution cipher, meaning every letter is replaced in-place by another letter.
           For Atbash, the encoded letter is derived by reversing the Alphabet. A becomes Z, and B becomes Y.
         </p>
 
