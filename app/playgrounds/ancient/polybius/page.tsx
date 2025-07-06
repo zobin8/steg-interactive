@@ -1,7 +1,7 @@
 'use client'
 
 import { alphabets, twoWayCipher } from "@/app/lib/substitution";
-import AlphabetSelect from "@/app/ui/playgrounds/alphabet-select";
+import { AlphabetContext, AlphabetProvider, AlphabetSelect } from "@/app/ui/playgrounds/alphabet-select";
 import CipherTable from "@/app/ui/playgrounds/ciphertable";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
@@ -10,7 +10,7 @@ import { TryItOut, TryItOutContext, TryItOutProvider } from "@/app/ui/playground
 import { Alert } from "flowbite-react";
 
 import Link from "next/link";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 const polybiusHeader = ['1', '2', '3', '4', '5'];
 
@@ -36,7 +36,12 @@ function joinCipher(cipher: (arg0: string) => string[]): ((arg0: string) => stri
 
 // Subcomponents
 
-function OriginalSection({alphabet}: {alphabet: string[]}) {
+function OriginalSection() {
+  const context = useContext(AlphabetContext);
+  if(!context) {
+    throw new Error("Missing Alphabet context");
+  }
+
   function getExampleContents(alphabet: string[]): string[] {
     return alphabet.map(item => item.replace('I', 'I/J'));
   }
@@ -48,7 +53,7 @@ function OriginalSection({alphabet}: {alphabet: string[]}) {
     return 'Pythagoras';
   }
 
-  const ciphers = makeEncoderDecoder(alphabet);
+  const ciphers = makeEncoderDecoder(context.alphabet);
 
   return (
     <>
@@ -60,7 +65,7 @@ function OriginalSection({alphabet}: {alphabet: string[]}) {
       <PolybiusTable
         headerRow={polybiusHeader}
         headerCol={polybiusHeader}
-        contents={getExampleContents(alphabet)}
+        contents={getExampleContents(context.alphabet)}
       />
       <p>
         Note that since the latin alphabet has 26 characters, I and J are merged into one cell.
@@ -69,8 +74,8 @@ function OriginalSection({alphabet}: {alphabet: string[]}) {
         The final ciphertext should consist only of a series of numbers.
       </p>
       <CipherTable
-        plaintext={getExampleText(alphabet)}
-        ciphertext={ciphers.encode(getExampleText(alphabet))}
+        plaintext={getExampleText(context.alphabet)}
+        ciphertext={ciphers.encode(getExampleText(context.alphabet))}
         highlightFullCol={true}
       />
     </>
@@ -91,12 +96,17 @@ function TryPolybiusWithContext({alphabet}: {alphabet: string[]}) {
   )
 }
 
-function TryPolybius({alphabet}: {alphabet: string[]}) {
-  const ciphers = makeEncoderDecoder(alphabet);
+function TryPolybius() {
+  const context = useContext(AlphabetContext);
+  if(!context) {
+    throw new Error("Missing Alphabet context");
+  }
+
+  const ciphers = makeEncoderDecoder(context.alphabet);
 
   return (
     <TryItOutProvider encode={joinCipher(ciphers.encode)} decode={joinCipher(ciphers.decode)}>
-      <TryPolybiusWithContext alphabet={alphabet}/>
+      <TryPolybiusWithContext alphabet={context.alphabet}/>
     </TryItOutProvider>
   );
 }
@@ -104,61 +114,59 @@ function TryPolybius({alphabet}: {alphabet: string[]}) {
 // Export
 
 export default function Component() {
-  const [alphabet, setAlphabet] = useState(alphabets.latin25);
-
   return (
     <FootnoteProvider>
-      <div className="flex flex-col gap-3">
-        <Alert color="warning">
-          <span className="font-medium me-1">Under Construction!</span>
-          Parts of this page are unfinished. Sections may be missing or incomplete.
-        </Alert>
+      <AlphabetProvider defaultAlphabet={alphabets.latin25}>
+        <div className="flex flex-col gap-3">
+          <Alert color="warning">
+            <span className="font-medium me-1">Under Construction!</span>
+            Parts of this page are unfinished. Sections may be missing or incomplete.
+          </Alert>
 
-        <Heading level={1} name="Polybius Square" />
-        <p>
-          The Polybius Square, popularized by the ancient greek historian Polybius, is a table used for substitution ciphers.
-          Its original use was to reduce the alphabet into the numbers 1 through 5, for easier use in fire signaling.
-          However, this ability to fractionalize the alphabet into smaller symbols was used throughout an entire family of ciphers.
-          <Footnote>
-            The paper
-            <Link
-              className="text-primary-800 hover:text-primary-700 mx-1"
-              href="https://www.researchgate.net/publication/342637897_Polybius_Square_in_Cryptography_A_Brief_Review_of_Literature"
-            >
-              &quot;Polybius Square in Cryptography: A Brief Review of Literature&quot;
-            </Link>
-            covers this in depth.
-          </Footnote>
-        </p>
+          <Heading level={1} name="Polybius Square" />
+          <p>
+            The Polybius Square, popularized by the ancient greek historian Polybius, is a table used for substitution ciphers.
+            Its original use was to reduce the alphabet into the numbers 1 through 5, for easier use in fire signaling.
+            However, this ability to fractionalize the alphabet into smaller symbols was used throughout an entire family of ciphers.
+            <Footnote>
+              The paper
+              <Link
+                className="text-primary-800 hover:text-primary-700 mx-1"
+                href="https://www.researchgate.net/publication/342637897_Polybius_Square_in_Cryptography_A_Brief_Review_of_Literature"
+              >
+                &quot;Polybius Square in Cryptography: A Brief Review of Literature&quot;
+              </Link>
+              covers this in depth.
+            </Footnote>
+          </p>
 
-        <AlphabetSelect
-          options={[alphabets.latin25, alphabets.greek]}
-          alphabet={alphabet}
-          setAlphabet={setAlphabet}
-        >
-          This page is available in multiple alphabets.
-          The original polybius square was made in Greek, but Latin variants have also been used throughout history.
-        </AlphabetSelect>
+          <AlphabetSelect
+            options={[alphabets.latin25, alphabets.greek]}
+          >
+            This page is available in multiple alphabets.
+            The original polybius square was made in Greek, but Latin variants have also been used throughout history.
+          </AlphabetSelect>
 
-        <Heading level={2} name="Original Design" />
-        <OriginalSection alphabet={alphabet}/>
-        
-
-        <Heading level={2} name="Uses" />
-        <p>
+          <Heading level={2} name="Original Design" />
+          <OriginalSection />
           
-        </p>
 
-        <Heading level={2} name="Variation with Key" />
-        <p>
-          
-        </p>
+          <Heading level={2} name="Uses" />
+          <p>
+            
+          </p>
 
-        <Heading level={2} name="Try it Out" />
-        <TryPolybius alphabet={alphabet}/>
+          <Heading level={2} name="Variation with Key" />
+          <p>
+            
+          </p>
 
-        <FootnoteList></FootnoteList>
-      </div>
+          <Heading level={2} name="Try it Out" />
+          <TryPolybius />
+
+          <FootnoteList></FootnoteList>
+        </div>
+      </AlphabetProvider>
     </FootnoteProvider>
   );
 }
