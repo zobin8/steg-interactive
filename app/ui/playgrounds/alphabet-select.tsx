@@ -4,14 +4,14 @@ import { Label, Select } from "flowbite-react";
 import { alphabets } from "@/app/lib/substitution";
 
 interface ComponentProps {
-  options: string[],
+  options: string[][],
   children: ReactNode,
-  alphabet: string,
-  setAlphabet: (arg0: string) => void,
+  alphabet: string[],
+  setAlphabet: (arg0: string[]) => void,
 }
 export default function AlphabetSelect({options, children, alphabet, setAlphabet}: ComponentProps) {
 
-  var friendlyNames = new Map<string, string>();
+  var friendlyNames = new Map<string[], string>();
   for (const [key, value] of Object.entries(alphabets)) {
     const stripped = key.replaceAll(/[^a-zA-Z]/g, '');
     const friendly = stripped[0].toUpperCase() + stripped.slice(1);
@@ -27,11 +27,11 @@ export default function AlphabetSelect({options, children, alphabet, setAlphabet
       <Label htmlFor="select-alphabet">Select Alphabet:</Label>
       <Select
         id="select-alphabet"
-        value={alphabet}
-        onChange={(evt) => setAlphabet(evt.target.value)}
+        value={options.indexOf(alphabet)}
+        onChange={(evt) => setAlphabet(options[evt.target.value])}
       >
-        {options.map((option) => (
-          <option key={option} value={option}>
+        {options.map((option, index) => (
+          <option key={index} value={index}>
             {friendlyNames.get(option) || option}
           </option>
         ))}

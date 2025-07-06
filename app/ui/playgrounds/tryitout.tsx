@@ -58,7 +58,7 @@ export function TryItOutProvider({encode, decode, children}: TryItOutProps) {
   )
 }
 
-function Keyboard({onKey, alphabet}: {onKey: ((key: string) => void), alphabet: string}) {
+function Keyboard({onKey, alphabet}: {onKey: ((key: string) => void), alphabet: string[]}) {
   function onClick(evt: MouseEvent<HTMLElement>) {
     const target = evt.target as HTMLElement;
     onKey(target.innerText);
@@ -66,7 +66,7 @@ function Keyboard({onKey, alphabet}: {onKey: ((key: string) => void), alphabet: 
 
   return (
     <div className="flex flex-wrap justify-center" aria-label="Custom keyboard">
-      {alphabet.split('').map((ch) => 
+      {alphabet.map((ch) => 
         <Kbd
           key={ch}
           className="text-center cursor-pointer hover:bg-gray-200 hover:dark:bg-gray-500 select-none"
@@ -80,10 +80,14 @@ function Keyboard({onKey, alphabet}: {onKey: ((key: string) => void), alphabet: 
   )
 }
 
-export function TryItOut({alphabet = alphabets.latin}: {alphabet?: string}) {
+export function TryItOut({alphabet = alphabets.latin, cipherAlphabet}: {alphabet?: string[], cipherAlphabet?: string[]}) {
   const context = useContext(TryItOutContext);
   if(!context) {
     throw new Error("Missing TryItOut context");
+  }
+
+  if (!cipherAlphabet) {
+    cipherAlphabet = alphabet;
   }
 
   function updatePlaintext(plaintext: string) {
@@ -112,7 +116,7 @@ export function TryItOut({alphabet = alphabets.latin}: {alphabet?: string}) {
         value={context.ciphertext}
         onChange={(evt) => updateCiphertext(evt.target.value)}
       />
-      <Keyboard alphabet={alphabet} onKey={(key) => updateCiphertext(context.ciphertext + key)} />
+      <Keyboard alphabet={cipherAlphabet} onKey={(key) => updateCiphertext(context.ciphertext + key)} />
     </>
   );
 }

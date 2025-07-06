@@ -18,13 +18,13 @@ const polybiusHeader = ['1', '2', '3', '4', '5'];
 const polybiusAlphabet = polybiusHeader.flatMap((ch1) => polybiusHeader.map((ch2) => ch1 + ch2));
 
 // Methods
-function makeEncoderDecoder(alphabet: string) {
+function makeEncoderDecoder(alphabet: string[]) {
   function encode(text: string) {
-    return twoWayCipher(text, alphabet.split(''), polybiusAlphabet, 1);
+    return twoWayCipher(text, alphabet, polybiusAlphabet, 1);
   }
 
   function decode(text: string) {
-    return twoWayCipher(text, polybiusAlphabet, alphabet.split(''), 2);
+    return twoWayCipher(text, polybiusAlphabet, alphabet, 2);
   }
 
   return {encode, decode}
@@ -36,13 +36,12 @@ function joinCipher(cipher: (arg0: string) => string[]): ((arg0: string) => stri
 
 // Subcomponents
 
-export function OriginalSection({alphabet}: {alphabet: string}) {
-  function getExampleContents(alphabet: string): string[] {
-    var exampleContents = alphabet.split('');
-    return exampleContents.map(item => item.replace('I', 'I/J'));
+export function OriginalSection({alphabet}: {alphabet: string[]}) {
+  function getExampleContents(alphabet: string[]): string[] {
+    return alphabet.map(item => item.replace('I', 'I/J'));
   }
 
-  function getExampleText(alphabet: string): string {
+  function getExampleText(alphabet: string[]): string {
     if (alphabet == alphabets.greek) {
       return 'Πυθαγόρας';
     }
@@ -78,7 +77,7 @@ export function OriginalSection({alphabet}: {alphabet: string}) {
   );
 }
 
-function TryPolybiusWithContext() {
+function TryPolybiusWithContext({alphabet}: {alphabet: string[]}) {
   const context = useContext(TryItOutContext);
   if(!context) {
     throw new Error("Missing TryItOut context");
@@ -87,17 +86,17 @@ function TryPolybiusWithContext() {
   // TODO: Add key selection
   return (
     <>
-      <TryItOut/>
+      <TryItOut alphabet={alphabet} cipherAlphabet={polybiusAlphabet}/>
     </>
   )
 }
 
-function TryPolybius({alphabet}: {alphabet: string}) {
+function TryPolybius({alphabet}: {alphabet: string[]}) {
   const ciphers = makeEncoderDecoder(alphabet);
 
   return (
     <TryItOutProvider encode={joinCipher(ciphers.encode)} decode={joinCipher(ciphers.decode)}>
-      <TryPolybiusWithContext></TryPolybiusWithContext>
+      <TryPolybiusWithContext alphabet={alphabet}/>
     </TryItOutProvider>
   );
 }

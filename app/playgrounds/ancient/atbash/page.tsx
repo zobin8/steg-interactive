@@ -16,7 +16,7 @@ function atbash(x: number): number {
 
 // Subcomponents
 
-function TryAtbash({alphabet}: {alphabet: string}) {
+function TryAtbash({alphabet}: {alphabet: string[]}) {
   function encode(text: string) {
     return affineCipher(text, alphabet, atbash);
   }
@@ -78,7 +78,7 @@ export default function Component() {
         <p>
           In Atbash, there is no encryption key. Letters are always encoded in reverse order:
         </p>
-        <CipherTable plaintext={alphabet} ciphertext={affineCipher(alphabet, alphabet, atbash)}/>
+        <CipherTable plaintext={alphabet} ciphertext={affineCipher(alphabet.join(''), alphabet, atbash)}/>
 
         <Heading level={2} name="Security" />
         <p>

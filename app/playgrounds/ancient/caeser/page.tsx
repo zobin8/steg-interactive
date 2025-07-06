@@ -56,7 +56,7 @@ function ExampleTable() {
       <KeySlider value={key} setValue={setKey} id="key1"/>
       <CipherTable
         plaintext={alphabets.latin}
-        ciphertext={shiftText(alphabets.latin, key)}
+        ciphertext={shiftText(alphabets.latin.join(''), key)}
       />
     </>
   );
