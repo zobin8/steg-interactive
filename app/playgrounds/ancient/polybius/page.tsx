@@ -7,17 +7,18 @@ import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/f
 import Heading from "@/app/ui/playgrounds/heading";
 import PolybiusTable from "@/app/ui/playgrounds/polybius";
 import { TryItOut, TryItOutContext, TryItOutProvider } from "@/app/ui/playgrounds/tryitout";
-import { Alert } from "flowbite-react";
+import { Alert, Blockquote } from "flowbite-react";
 
 import Link from "next/link";
 import { useContext } from "react";
 
 const polybiusHeader = ['1', '2', '3', '4', '5'];
-
-// 11, 12, 13, 14, 15, 21, ...
-const polybiusAlphabet = polybiusHeader.flatMap((ch1) => polybiusHeader.map((ch2) => ch1 + ch2));
+const polybiusAlphabet = polybiusHeader.flatMap(
+  (ch1) => polybiusHeader.map((ch2) => ch1 + ch2) // 11, 12, 13, 14, 15, 21, ...
+);
 
 // Methods
+
 function makeEncoderDecoder(alphabet: string[]) {
   function encode(text: string) {
     return twoWayCipher(text, alphabet, polybiusAlphabet, 1);
@@ -34,6 +35,13 @@ function joinCipher(cipher: (arg0: string) => string[]): ((arg0: string) => stri
   return (arg0) => cipher(arg0).join('');
 }
 
+function getExampleText(alphabet: string[]): string {
+  if (alphabet == alphabets.greek) {
+    return 'Πυθαγόρας';
+  }
+  return 'Pythagoras';
+}
+
 // Subcomponents
 
 function OriginalSection() {
@@ -44,13 +52,6 @@ function OriginalSection() {
 
   function getExampleContents(alphabet: string[]): string[] {
     return alphabet.map(item => item.replace('I', 'I/J'));
-  }
-
-  function getExampleText(alphabet: string[]): string {
-    if (alphabet == alphabets.greek) {
-      return 'Πυθαγόρας';
-    }
-    return 'Pythagoras';
   }
 
   const ciphers = makeEncoderDecoder(context.alphabet);
@@ -82,9 +83,35 @@ function OriginalSection() {
   );
 }
 
-function TryPolybiusWithContext({alphabet}: {alphabet: string[]}) {
-  const context = useContext(TryItOutContext);
+function HideText({coverText, hideChar}: {coverText: string, hideChar: string}) {
+  const context = useContext(AlphabetContext);
   if(!context) {
+    throw new Error("Missing Alphabet context");
+  }
+
+  const hiddenText = getExampleText(context.alphabet);
+  const ciphers = makeEncoderDecoder(context.alphabet);
+  const hiddenNumbers = ciphers.encode(hiddenText).join('').split('').map((ch) => Number(ch));
+
+  const words = coverText.split(' ');
+  while (words.length <= hiddenNumbers.length) {
+    words.push(' ');
+  }
+
+  let text = words.map((word, index) => 
+    word + (hideChar.repeat(hiddenNumbers[index] || 0))
+  ).join('');
+
+  return (
+    <Blockquote className="border-l-4 p-4 border-gray-300 bg-gray-50 dark:border-gray-500 dark:bg-gray-800">
+      {text}
+    </Blockquote>
+  );
+}
+
+function TryPolybiusWithContext({alphabet}: {alphabet: string[]}) {
+  const tryContext = useContext(TryItOutContext);
+  if(!tryContext) {
     throw new Error("Missing TryItOut context");
   }
 
@@ -97,16 +124,16 @@ function TryPolybiusWithContext({alphabet}: {alphabet: string[]}) {
 }
 
 function TryPolybius() {
-  const context = useContext(AlphabetContext);
-  if(!context) {
+  const alphaContext = useContext(AlphabetContext);
+  if(!alphaContext) {
     throw new Error("Missing Alphabet context");
   }
 
-  const ciphers = makeEncoderDecoder(context.alphabet);
+  const ciphers = makeEncoderDecoder(alphaContext.alphabet);
 
   return (
     <TryItOutProvider encode={joinCipher(ciphers.encode)} decode={joinCipher(ciphers.decode)}>
-      <TryPolybiusWithContext alphabet={context.alphabet}/>
+      <TryPolybiusWithContext alphabet={alphaContext.alphabet}/>
     </TryItOutProvider>
   );
 }
@@ -114,6 +141,8 @@ function TryPolybius() {
 // Export
 
 export default function Component() {
+  const covertext = 'There is use for cryptography, both in history and the modern day, when you want to hide text from someone.';
+
   return (
     <FootnoteProvider>
       <AlphabetProvider defaultAlphabet={alphabets.latin25}>
@@ -149,11 +178,30 @@ export default function Component() {
 
           <Heading level={2} name="Original Design" />
           <OriginalSection />
-          
 
           <Heading level={2} name="Uses" />
           <p>
-            
+            The Polybius cipher can be useful in steganography.
+            It fractionalizes a text to only contain the numbers 1 through 5.
+            These numbers can be much easier to hide than regular letters.
+            For example, here is the example text above, encoded as dots:
+          </p>
+          <HideText
+            coverText=""
+            hideChar="."
+          />
+          <p>
+            This is still pretty visible, so we will hide it in some covertext.
+            Try counting the spaces in the text below:
+          </p>
+          <HideText
+            coverText={covertext}
+            hideChar="&#8198;"
+          />
+          <p>
+            Apart from these steganographic uses, however, the original Polybius cipher is cryptographically weak.
+            We don't have a key, so if an attacker knows the Polybius cipher, they can instantly decrypt the text.
+            Let's try changing that.
           </p>
 
           <Heading level={2} name="Variation with Key" />
