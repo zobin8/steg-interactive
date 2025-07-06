@@ -81,6 +81,7 @@ function DecodingChallenge() {
         plaintext={shiftText(shiftedSecret, -key)}
         ciphertext={shiftedSecret}
         reverse={true}
+        highlightFullCol={true}
       />
     </>
   );

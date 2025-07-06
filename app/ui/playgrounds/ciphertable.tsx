@@ -2,18 +2,26 @@ import clsx from "clsx";
 import { Table, TableBody, TableCell, TableHead, TableHeadCell, TableRow } from "flowbite-react";
 import { MouseEvent, useState } from "react";
 
-export default function CipherTable(
-  {plaintext, ciphertext, reverse}: {plaintext: string[]|string, ciphertext: string[]|string, reverse?: boolean}
-) {
+
+interface CipherProps {
+  plaintext: string[]|string,
+  ciphertext: string[]|string,
+  reverse?: boolean,
+  highlightFullCol?: boolean
+}
+export default function CipherTable({plaintext, ciphertext, reverse, highlightFullCol}: CipherProps) {
   // State
 
   const [selected, setSelected] = useState('');
 
-  function handleMouseEnter(event: MouseEvent<HTMLElement>) {
-    if (!event) return;
-  
-    const target = event.target as HTMLElement;
-    setSelected(target.innerText);
+  function makeHandleMouseEnter(text: string) {
+    function handleMouseEnter(event: MouseEvent<HTMLElement>) {
+      if (!event) return;
+
+      setSelected(text);
+    }
+
+    return handleMouseEnter;
   }
 
   function handleMouseLeave() {
@@ -49,6 +57,13 @@ export default function CipherTable(
     });
   }
 
+  function getSelectedText(index: number) {
+    if (highlightFullCol) {
+      return contents1[index];
+    }
+    return contents2[index];
+  }
+
   return (
     <div className="flex flex-wrap" onMouseLeave={handleMouseLeave}>
       <div className="col-span-3">
@@ -73,12 +88,12 @@ export default function CipherTable(
         <Table key={index}>
           <TableHead>
             <TableRow>
-              <TableHeadCell onMouseEnter={handleMouseEnter} className={hoverStyle(text)}>{text}</TableHeadCell>
+              <TableHeadCell onMouseEnter={makeHandleMouseEnter(text)} className={hoverStyle(text)}>{text}</TableHeadCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell onMouseEnter={handleMouseEnter} className={hoverStyle(contents2[index])}>{contents2[index]}</TableCell>
+              <TableCell onMouseEnter={makeHandleMouseEnter(getSelectedText(index))} className={hoverStyle(getSelectedText(index))}>{contents2[index]}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

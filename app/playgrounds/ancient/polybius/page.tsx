@@ -6,7 +6,7 @@ import CipherTable from "@/app/ui/playgrounds/ciphertable";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
 import PolybiusTable from "@/app/ui/playgrounds/polybius";
-import { Alert, Label, Select } from "flowbite-react";
+import { Alert } from "flowbite-react";
 
 import Link from "next/link";
 import { useState } from "react";
@@ -53,6 +53,7 @@ export function OriginalSection({alphabet}: {alphabet: string}) {
       <CipherTable
         plaintext={getExampleText(alphabet)}
         ciphertext={twoWayCipher(getExampleText(alphabet), alphabet.split(''), polybiusAlphabet)}
+        highlightFullCol={true}
       />
     </>
   );
