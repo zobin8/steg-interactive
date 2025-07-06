@@ -76,16 +76,17 @@ export function affineCipher(text: string, alphabet: string, func: ((x: number) 
   return output;
 }
 
-export function twoWayCipher(text: string, plainAlphabet: string[], cipherAlphabet: string[]): string[] {
+export function twoWayCipher(text: string, plainAlphabet: string[], cipherAlphabet: string[], step: number = 1): string[] {
   text = standardize(text);
   let output: string[] = [];
 
-  for (const ch of text) {
-    const index = plainAlphabet.indexOf(ch);
-    if (index < 0) {
+  for (var textIndex = 0; textIndex < text.length; textIndex += step) {
+    const ch = text.slice(textIndex, textIndex + step);
+    const plainIndex = plainAlphabet.indexOf(ch);
+    if (plainIndex < 0) {
       output.push(ch);
     } else {
-      output.push(cipherAlphabet[index]);
+      output.push(cipherAlphabet[plainIndex]);
     }
   }
 

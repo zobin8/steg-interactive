@@ -20,11 +20,11 @@ const polybiusAlphabet = polybiusHeader.flatMap((ch1) => polybiusHeader.map((ch2
 // Methods
 function makeEncoderDecoder(alphabet: string) {
   function encode(text: string) {
-    return twoWayCipher(text, alphabet.split(''), polybiusAlphabet);
+    return twoWayCipher(text, alphabet.split(''), polybiusAlphabet, 1);
   }
 
   function decode(text: string) {
-    return twoWayCipher(text, polybiusAlphabet, alphabet.split(''));
+    return twoWayCipher(text, polybiusAlphabet, alphabet.split(''), 2);
   }
 
   return {encode, decode}
