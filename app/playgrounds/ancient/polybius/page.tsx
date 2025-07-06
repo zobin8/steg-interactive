@@ -1,6 +1,7 @@
 'use client'
 
 import { alphabets, twoWayCipher } from "@/app/lib/substitution";
+import AlphabetSelect from "@/app/ui/playgrounds/alphabet-select";
 import CipherTable from "@/app/ui/playgrounds/ciphertable";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
@@ -62,8 +63,6 @@ export function OriginalSection({alphabet}: {alphabet: string}) {
 export default function Component() {
   const [alphabet, setAlphabet] = useState(alphabets.latin25);
 
-  
-
   return (
     <FootnoteProvider>
       <div className="flex flex-col gap-3">
@@ -89,16 +88,14 @@ export default function Component() {
           </Footnote>
         </p>
 
-        <Heading level={2} name="Alphabet Selection" />
-        <p>
+        <AlphabetSelect
+          options={[alphabets.latin25, alphabets.greek]}
+          alphabet={alphabet}
+          setAlphabet={setAlphabet}
+        >
           This page is available in multiple alphabets.
           The original polybius square was made in Greek, but Latin variants have also been used throughout history.
-        </p>
-        <Label htmlFor="select-alphabet">Select Alphabet:</Label>
-        <Select id="select-alphabet" value={alphabet} onChange={(evt) => setAlphabet(evt.target.value)}>
-          <option value={alphabets.latin25}>Latin</option>
-          <option value={alphabets.greek}>Greek</option>
-        </Select>
+        </AlphabetSelect>
 
         <Heading level={2} name="Original Design" />
         <OriginalSection alphabet={alphabet}/>

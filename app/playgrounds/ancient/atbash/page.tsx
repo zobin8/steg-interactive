@@ -1,6 +1,7 @@
 'use client'
 
 import { affineCipher, alphabets } from "@/app/lib/substitution";
+import AlphabetSelect from "@/app/ui/playgrounds/alphabet-select";
 import CipherTable from "@/app/ui/playgrounds/ciphertable";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
@@ -65,16 +66,14 @@ export default function Component() {
           For Atbash, the encoded letter is derived by reversing the Alphabet. A becomes Z, and B becomes Y.
         </p>
 
-        <Heading level={2} name="Alphabet Selection" />
-        <p>
+        <AlphabetSelect
+          options={[alphabets.latin, alphabets.hebrew]}
+          alphabet={alphabet}
+          setAlphabet={setAlphabet}
+        >
           This page is available in multiple alphabets.
           Atbash was originally designed for Hebrew, but a Latin variant is also provided for convenience.
-        </p>
-        <Label htmlFor="select-alphabet">Select Alphabet:</Label>
-        <Select id="select-alphabet" value={alphabet} onChange={(evt) => setAlphabet(evt.target.value)}>
-          <option value={alphabets.latin}>Latin</option>
-          <option value={alphabets.hebrew}>Hebrew</option>
-        </Select>
+        </AlphabetSelect>
 
         <Heading level={2} name="Encryption" />
         <p>
