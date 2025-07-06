@@ -94,7 +94,7 @@ function HideText({coverText, hideChar}: {coverText: string, hideChar: string}) 
   const hiddenNumbers = ciphers.encode(hiddenText).join('').split('').map((ch) => Number(ch));
 
   const words = coverText.split(' ');
-  while (words.length <= hiddenNumbers.length) {
+  while (words.length < hiddenNumbers.length) {
     words.push(' ');
   }
 
