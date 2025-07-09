@@ -7,10 +7,10 @@ import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/f
 import Heading from "@/app/ui/playgrounds/heading";
 import PolybiusTable from "@/app/ui/playgrounds/polybius";
 import { TryItOut, TryItOutContext, TryItOutProvider } from "@/app/ui/playgrounds/tryitout";
-import { Alert, Blockquote, Kbd } from "flowbite-react";
+import { Alert, Blockquote, Kbd, Label, TextInput } from "flowbite-react";
 
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const covertext = 'There is use for cryptography, both in history and the modern day, when you want to hide text from someone.';
 const polybiusHeader = ['1', '2', '3', '4', '5'];
@@ -37,7 +37,7 @@ function createKeyedAlphabet(key: string, alphabet: string[]): string[] {
   const standardKey = standardize(key);
   const items = [...standardKey.split(''), ...alphabet];
   for (const ch of items) {
-    if (!newAlphabet.includes(ch)) {
+    if (!newAlphabet.includes(ch) && alphabet.includes(ch)) {
       newAlphabet.push(ch);
     }
   }
@@ -190,10 +190,34 @@ function KeySection() {
     throw new Error("Missing Alphabet context");
   }
 
+  const secretText = getExampleText(context.alphabet);
+  const blankText = '.'.repeat(secretText.length).split('');
+
+  const [key, setKey] = useState('');
+  const [secretKey, setSecret] = useState('ZXYWV');
+  const [plaintext, setPlaintext] = useState<string[]>(blankText);
+  const [ciphertext, setCiphertext] = useState<string[]>(blankText);
+
+  // Set secret key on page load
+  useEffect(() => {
+    const newKey = pickRandomKey(context.alphabet, 5);
+    setSecret(newKey);
+
+    const secretAlphabet = createKeyedAlphabet(newKey, context.alphabet);
+    const secretCiphers = makeEncoderDecoder(secretAlphabet);
+    const newText = secretCiphers.encode(secretText);
+    setCiphertext(newText);
+  }, [context.alphabet]);
+
+  // Update ciphers for user key
+  useEffect(() => {
+    const userAlphabet = createKeyedAlphabet(key, context.alphabet);
+    const userCiphers = makeEncoderDecoder(userAlphabet);
+    setPlaintext(userCiphers.decode(ciphertext.join('')));
+  }, [key, secretKey, ciphertext, context.alphabet])
+
   const defaultKey = getDefaultKey(context.alphabet);
   const defaultAlphabet = createKeyedAlphabet(defaultKey, context.alphabet);
-
-  const secretKey = pickRandomKey(context.alphabet, 5);
 
   return (
     <>
@@ -226,8 +250,14 @@ function KeySection() {
       <p>
         The ciphertable below contains a message created with a bad key (only 5 letters in length).
         Can you figure out what it says?
-        The "Try it Out" widget at the bottom of the page may help.
       </p>
+      <Label htmlFor="key">Key:</Label>
+      <TextInput id="key" placeholder="Key?" onChange={(evt) => setKey(evt.target.value)} value={key}/>
+      <CipherTable
+        plaintext={plaintext}
+        ciphertext={ciphertext}
+        highlightFullCol={true}
+      />
       <Heading level={3} name="Attack 2: Frequency Analysis"/>
       <p>
         Even if the key was perfect, this cipher can be broken.
@@ -236,7 +266,7 @@ function KeySection() {
         Polybius, however, most certainly did not know about this.
         We will cover Frequency analysis in a
         <Link
-          className="text-primary-800 hover:text-primary-700 mx-1"
+          className="text-primary-800 hover:text-primary-700 ms-1"
           href="/playgrounds/postclassical/frequency-analysis"
         >
           later section

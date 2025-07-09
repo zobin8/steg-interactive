@@ -40,8 +40,11 @@ export default function CipherTable({plaintext, ciphertext, reverse, highlightFu
   let [label1, label2] = ['Plaintext', 'Ciphertext'];
   let [contents1, contents2] = [plaintext, ciphertext];
 
-  if (plaintext.length != ciphertext.length) {
-    throw new Error('CipherTable length mismatch');
+  while (plaintext.length < ciphertext.length) {
+    plaintext.push(' ');
+  }
+  while (ciphertext.length < plaintext.length) {
+    ciphertext.push(' ');
   }
 
   if (reverse) {
