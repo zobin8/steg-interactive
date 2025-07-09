@@ -41,10 +41,10 @@ export default function CipherTable({plaintext, ciphertext, reverse, highlightFu
   let [contents1, contents2] = [plaintext, ciphertext];
 
   while (plaintext.length < ciphertext.length) {
-    plaintext.push(' ');
+    plaintext.push('_');
   }
   while (ciphertext.length < plaintext.length) {
-    ciphertext.push(' ');
+    ciphertext.push('_');
   }
 
   if (reverse) {
@@ -91,12 +91,16 @@ export default function CipherTable({plaintext, ciphertext, reverse, highlightFu
         <Table key={index}>
           <TableHead>
             <TableRow>
-              <TableHeadCell onMouseEnter={makeHandleMouseEnter(text)} className={hoverStyle(text)}>{text}</TableHeadCell>
+              <TableHeadCell onMouseEnter={makeHandleMouseEnter(text)} className={hoverStyle(text)}>
+                {text.replace(' ', '_')}
+              </TableHeadCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell onMouseEnter={makeHandleMouseEnter(getSelectedText(index))} className={hoverStyle(getSelectedText(index))}>{contents2[index]}</TableCell>
+              <TableCell onMouseEnter={makeHandleMouseEnter(getSelectedText(index))} className={hoverStyle(getSelectedText(index))}>
+                {contents2[index].replace(' ', '_')}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
