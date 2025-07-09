@@ -86,7 +86,8 @@ export function twoWayCipher(text: string, plainAlphabet: string[], cipherAlphab
     const ch = text.slice(textIndex, textIndex + step);
     const plainIndex = plainAlphabet.indexOf(ch);
     if (plainIndex < 0) {
-      output.push(ch);
+      output.push(ch[0]);
+      textIndex -= step - 1;
     } else {
       output.push(cipherAlphabet[plainIndex]);
     }

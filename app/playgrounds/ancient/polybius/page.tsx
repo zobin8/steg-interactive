@@ -63,6 +63,16 @@ function getDefaultKey(alphabet: string[]): string {
   return 'Trismegistus';
 }
 
+function getSecretText(alphabet: string[]): string {
+  var key = 'APHRRODITE OURANIA';
+  var text = '1324115124314254,2242422545231422152545,4211253513232414-421551223135 4425242431';
+  if (alphabet == alphabets.greek) {
+    key = 'Ἀφροδίτη Οὐρανία';
+    text = '14241311252123,4514422424432533,1221421443433321152351 1112131415212223';
+  }
+  return makeEncoderDecoder(createKeyedAlphabet(key, alphabet)).decode(text).join('');
+}
+
 function pickRandomKey(alphabet: string[], length: number): string {
   var remaining = [...alphabet];
   var key = ''
@@ -190,7 +200,7 @@ function KeySection() {
     throw new Error("Missing Alphabet context");
   }
 
-  const secretText = getExampleText(context.alphabet);
+  const secretText = getSecretText(context.alphabet);
   const blankText = '.'.repeat(secretText.length).split('');
 
   const [key, setKey] = useState('');
@@ -202,6 +212,7 @@ function KeySection() {
   useEffect(() => {
     const newKey = pickRandomKey(context.alphabet, 5);
     setSecret(newKey);
+    console.log(newKey);
 
     const secretAlphabet = createKeyedAlphabet(newKey, context.alphabet);
     const secretCiphers = makeEncoderDecoder(secretAlphabet);
@@ -251,8 +262,8 @@ function KeySection() {
         The ciphertable below contains a message created with a bad key (only 5 letters in length).
         Can you figure out what it says?
       </p>
-      <Label htmlFor="key">Key:</Label>
-      <TextInput id="key" placeholder="Key?" onChange={(evt) => setKey(evt.target.value)} value={key}/>
+      <Label htmlFor="key1">Key:</Label>
+      <TextInput id="key1" placeholder="Key?" onChange={(evt) => setKey(evt.target.value)} value={key}/>
       <CipherTable
         plaintext={plaintext}
         ciphertext={ciphertext}
@@ -276,15 +287,18 @@ function KeySection() {
   );
 }
 
-function TryPolybiusWithContext({alphabet}: {alphabet: string[]}) {
+function TryPolybiusWithContext({alphabet, value, setValue}: {alphabet: string[], value: string, setValue: ((arg0: string) => void)}) {
   const tryContext = useContext(TryItOutContext);
   if(!tryContext) {
     throw new Error("Missing TryItOut context");
   }
 
-  // TODO: Add key selection
+  useEffect(() => {tryContext.handleUpdate({})}, [tryContext, value]);
+
   return (
     <>
+      <Label htmlFor="key2">Key:</Label>
+      <TextInput id="key2" onChange={(evt) => setValue(evt.target.value)} value={value}/>
       <TryItOut alphabet={alphabet} cipherAlphabet={polybiusAlphabet}/>
     </>
   )
@@ -296,11 +310,14 @@ function TryPolybius() {
     throw new Error("Missing Alphabet context");
   }
 
-  const ciphers = makeEncoderDecoder(alphaContext.alphabet);
+  const [key, setKey] = useState('');
+
+  const keyAlphabet = createKeyedAlphabet(key, alphaContext.alphabet);
+  const ciphers = makeEncoderDecoder(keyAlphabet);
 
   return (
     <TryItOutProvider encode={joinCipher(ciphers.encode)} decode={joinCipher(ciphers.decode)}>
-      <TryPolybiusWithContext alphabet={alphaContext.alphabet}/>
+      <TryPolybiusWithContext alphabet={alphaContext.alphabet} value={key} setValue={setKey}/>
     </TryItOutProvider>
   );
 }
