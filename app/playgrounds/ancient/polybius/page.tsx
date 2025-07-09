@@ -7,7 +7,7 @@ import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/f
 import Heading from "@/app/ui/playgrounds/heading";
 import PolybiusTable from "@/app/ui/playgrounds/polybius";
 import { TryItOut, TryItOutContext, TryItOutProvider } from "@/app/ui/playgrounds/tryitout";
-import { Alert, Blockquote, Kbd, Label, TextInput } from "flowbite-react";
+import { Alert, Blockquote, Label, TextInput } from "flowbite-react";
 
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
@@ -329,11 +329,6 @@ export default function Component() {
     <FootnoteProvider>
       <AlphabetProvider defaultAlphabet={alphabets.latin25}>
         <div className="flex flex-col gap-3">
-          <Alert color="warning">
-            <span className="font-medium me-1">Under Construction!</span>
-            Parts of this page are unfinished. Sections may be missing or incomplete.
-          </Alert>
-
           <Heading level={1} name="Polybius Square" />
           <p>
             The Polybius Square, popularized by the ancient greek historian Polybius, is a table used for substitution ciphers.
