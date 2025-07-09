@@ -1,17 +1,18 @@
 'use client'
 
-import { alphabets, twoWayCipher } from "@/app/lib/substitution";
+import { alphabets, standardize, twoWayCipher } from "@/app/lib/substitution";
 import { AlphabetContext, AlphabetProvider, AlphabetSelect } from "@/app/ui/playgrounds/alphabet-select";
 import CipherTable from "@/app/ui/playgrounds/ciphertable";
 import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/footnote";
 import Heading from "@/app/ui/playgrounds/heading";
 import PolybiusTable from "@/app/ui/playgrounds/polybius";
 import { TryItOut, TryItOutContext, TryItOutProvider } from "@/app/ui/playgrounds/tryitout";
-import { Alert, Blockquote } from "flowbite-react";
+import { Alert, Blockquote, Kbd } from "flowbite-react";
 
 import Link from "next/link";
 import { useContext } from "react";
 
+const covertext = 'There is use for cryptography, both in history and the modern day, when you want to hide text from someone.';
 const polybiusHeader = ['1', '2', '3', '4', '5'];
 const polybiusAlphabet = polybiusHeader.flatMap(
   (ch1) => polybiusHeader.map((ch2) => ch1 + ch2) // 11, 12, 13, 14, 15, 21, ...
@@ -31,6 +32,19 @@ function makeEncoderDecoder(alphabet: string[]) {
   return {encode, decode}
 }
 
+function createKeyedAlphabet(key: string, alphabet: string[]): string[] {
+  var newAlphabet: string[] = [];
+  const standardKey = standardize(key);
+  const items = [...standardKey.split(''), ...alphabet];
+  for (const ch of items) {
+    if (!newAlphabet.includes(ch)) {
+      newAlphabet.push(ch);
+    }
+  }
+
+  return newAlphabet;
+}
+
 function joinCipher(cipher: (arg0: string) => string[]): ((arg0: string) => string) {
   return (arg0) => cipher(arg0).join('');
 }
@@ -40,6 +54,25 @@ function getExampleText(alphabet: string[]): string {
     return 'Πυθαγόρας';
   }
   return 'Pythagoras';
+}
+
+function getDefaultKey(alphabet: string[]): string {
+  if (alphabet == alphabets.greek) {
+    return 'Τρισμέγιστος';
+  }
+  return 'Trismegistus';
+}
+
+function pickRandomKey(alphabet: string[], length: number): string {
+  var remaining = [...alphabet];
+  var key = ''
+  while (key.length < length) {
+    const index = Math.floor(Math.random() * remaining.length);
+    key += remaining[index];
+    remaining.splice(index, 1);
+  }
+
+  return key;
 }
 
 // Subcomponents
@@ -109,6 +142,110 @@ function HideText({coverText, hideChars}: {coverText: string, hideChars: string[
   );
 }
 
+function UseSection() {
+  const context = useContext(AlphabetContext);
+  if(!context) {
+    throw new Error("Missing Alphabet context");
+  }
+
+  return (
+    <>
+      <p>
+        The Polybius cipher can be useful in steganography.
+        It fractionalizes a text to only contain the numbers 1 through 5.
+        These numbers can be much easier to hide than regular letters.
+        For example, here is the example text above, encoded as dots:
+      </p>
+      <HideText
+        coverText=""
+        hideChars={["", ".", "..", "...", "....", "....."]}
+      />
+      <p>
+        This is still pretty visible, so we will hide it in some covertext.
+        Try counting the spaces in the text below (Use text highlighting):
+      </p>
+      <HideText
+        coverText={covertext}
+        hideChars={[
+          "",
+          "\u2003",
+          "\u2002\u2002",
+          "\u2004\u2004\u2004",
+          "\u2005\u2005\u2005\u2005",
+          "\u2006\u2006\u2006\u2006\u2006"
+        ]}
+      />
+      <p>
+        Apart from these steganographic uses, however, the original Polybius cipher is cryptographically weak.
+        We don't have a key, so if an attacker knows the Polybius cipher, they can instantly decrypt the text.
+        Let's try changing that.
+      </p>
+    </>
+  );
+}
+
+function KeySection() {
+  const context = useContext(AlphabetContext);
+  if(!context) {
+    throw new Error("Missing Alphabet context");
+  }
+
+  const defaultKey = getDefaultKey(context.alphabet);
+  const defaultAlphabet = createKeyedAlphabet(defaultKey, context.alphabet);
+
+  const secretKey = pickRandomKey(context.alphabet, 5);
+
+  return (
+    <>
+      <p>
+        One way to add a key to a Polybius cipher is by writing a key word into the Polybius square.
+        For example, let's try the key "{defaultKey}".
+        We first drop any duplicate letters, and then append any unused letters in order to the key.
+        This gives us a new ordering of the alphabet: "{defaultAlphabet.join('')}".
+        We can now plug this into the Polybius square.
+      </p>
+      <PolybiusTable
+        headerRow={polybiusHeader}
+        headerCol={polybiusHeader}
+        contents={defaultAlphabet}
+      />
+      <p>
+        Now, to encode a letter, we take the row and column number from this table.
+        This gives us a substitution cipher with a relatively large number of possible keys.
+        While the Caeser cipher only had 26 possible keys, this has 26! (or about 4x10<sup>26</sup>).
+        Surely this cipher is unbreakable, right?
+      </p>
+      <Heading level={3} name="Attack 1: Bad Keys"/>
+      <p>
+        Look at the last row of our new Polybius square. It's the same as the original.
+        Since our key was less than 26 letters, the last few letters had to be filled in from the alphabet.
+        While the first row is mostly encrypted, the last row is not.
+        A smart attacker could use those letters to maybe figure out the rest of the message.
+        To avoid this, our key would need to contain all letters of the alphabet out of order.
+      </p>
+      <p>
+        The ciphertable below contains a message created with a bad key (only 5 letters in length).
+        Can you figure out what it says?
+        The "Try it Out" widget at the bottom of the page may help.
+      </p>
+      <Heading level={3} name="Attack 2: Frequency Analysis"/>
+      <p>
+        Even if the key was perfect, this cipher can be broken.
+        In this substitution cipher, all instances of the same letter always have the same ciphertext (Known as a monoalphabetic substition cipher).
+        All ciphers of this type are vulnerable to frequency analysis.
+        Polybius, however, most certainly did not know about this.
+        We will cover Frequency analysis in a
+        <Link
+          className="text-primary-800 hover:text-primary-700 mx-1"
+          href="/playgrounds/postclassical/frequency-analysis"
+        >
+          later section
+        </Link>.
+      </p>
+    </>
+  );
+}
+
 function TryPolybiusWithContext({alphabet}: {alphabet: string[]}) {
   const tryContext = useContext(TryItOutContext);
   if(!tryContext) {
@@ -141,8 +278,6 @@ function TryPolybius() {
 // Export
 
 export default function Component() {
-  const covertext = 'There is use for cryptography, both in history and the modern day, when you want to hide text from someone.';
-
   return (
     <FootnoteProvider>
       <AlphabetProvider defaultAlphabet={alphabets.latin25}>
@@ -180,41 +315,10 @@ export default function Component() {
           <OriginalSection />
 
           <Heading level={2} name="Uses" />
-          <p>
-            The Polybius cipher can be useful in steganography.
-            It fractionalizes a text to only contain the numbers 1 through 5.
-            These numbers can be much easier to hide than regular letters.
-            For example, here is the example text above, encoded as dots:
-          </p>
-          <HideText
-            coverText=""
-            hideChars={["", ".", "..", "...", "....", "....."]}
-          />
-          <p>
-            This is still pretty visible, so we will hide it in some covertext.
-            Try counting the spaces in the text below (Use text highlighting):
-          </p>
-          <HideText
-            coverText={covertext}
-            hideChars={[
-              "",
-              "\u2003",
-              "\u2002\u2002",
-              "\u2004\u2004\u2004",
-              "\u2005\u2005\u2005\u2005",
-              "\u2006\u2006\u2006\u2006\u2006"
-            ]}
-          />
-          <p>
-            Apart from these steganographic uses, however, the original Polybius cipher is cryptographically weak.
-            We don't have a key, so if an attacker knows the Polybius cipher, they can instantly decrypt the text.
-            Let's try changing that.
-          </p>
+          <UseSection />
 
           <Heading level={2} name="Variation with Key" />
-          <p>
-            
-          </p>
+          <KeySection />
 
           <Heading level={2} name="Try it Out" />
           <TryPolybius />
