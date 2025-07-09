@@ -83,7 +83,7 @@ function OriginalSection() {
   );
 }
 
-function HideText({coverText, hideChar}: {coverText: string, hideChar: string}) {
+function HideText({coverText, hideChars}: {coverText: string, hideChars: string[]}) {
   const context = useContext(AlphabetContext);
   if(!context) {
     throw new Error("Missing Alphabet context");
@@ -99,7 +99,7 @@ function HideText({coverText, hideChar}: {coverText: string, hideChar: string}) 
   }
 
   let text = words.map((word, index) => 
-    word + (hideChar.repeat(hiddenNumbers[index] || 0))
+    word + (hideChars[hiddenNumbers[index]] || '')
   ).join('');
 
   return (
@@ -188,15 +188,22 @@ export default function Component() {
           </p>
           <HideText
             coverText=""
-            hideChar="."
+            hideChars={["", ".", "..", "...", "....", "....."]}
           />
           <p>
             This is still pretty visible, so we will hide it in some covertext.
-            Try counting the spaces in the text below:
+            Try counting the spaces in the text below (Use text highlighting):
           </p>
           <HideText
             coverText={covertext}
-            hideChar="&#8198;"
+            hideChars={[
+              "",
+              "\u2003",
+              "\u2002\u2002",
+              "\u2004\u2004\u2004",
+              "\u2005\u2005\u2005\u2005",
+              "\u2006\u2006\u2006\u2006\u2006"
+            ]}
           />
           <p>
             Apart from these steganographic uses, however, the original Polybius cipher is cryptographically weak.
