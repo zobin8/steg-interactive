@@ -1,0 +1,7 @@
+services:
+  web:
+    image: steg-interactive:latest
+    ports:
+      - "8147:8147"
+    environment:
+      - PORT=8147

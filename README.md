@@ -3,7 +3,9 @@ A collection of interactive playgrounds to learn about steganography and cryptog
 
 This project is still under development. Many pages may not be implemented.
 
-## How to run
+You can access the newest release at https://steg.zkrueger.com
+
+## How to run yourself
 
 ### Run from docker
 
