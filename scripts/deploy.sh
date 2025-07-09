@@ -21,8 +21,8 @@ sleep 1
 
 # Build
 
-docker login -u $USER $REMOTE
-docker build . -t $IMAGE:$VERSION
+docker login -u $USER $REMOTE || exit 2
+docker build . -t $IMAGE:$VERSION || exit 2
 
 # Set tags
 
@@ -31,12 +31,13 @@ docker tag $IMAGE:$VERSION $REMOTE/$IMAGE:$VERSION
 
 # Push to remote
 
-git push origin $VERSION
-docker push $REMOTE/$IMAGE:$VERSION
+git push origin $VERSION || exit 2
+docker push $REMOTE/$IMAGE:$VERSION || exit 2
 
 # Push to latest
 if [[ $LATEST_VERSION == $VERSION ]]
 then
+  docker tag $IMAGE:$VERSION $IMAGE:latest
   docker tag $REMOTE/$IMAGE:$VERSION $REMOTE/$IMAGE:latest
   docker push $REMOTE/$IMAGE:latest
 fi

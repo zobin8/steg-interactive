@@ -7,7 +7,7 @@ import { Footnote, FootnoteList, FootnoteProvider } from "@/app/ui/playgrounds/f
 import Heading from "@/app/ui/playgrounds/heading";
 import PolybiusTable from "@/app/ui/playgrounds/polybius";
 import { TryItOut, TryItOutContext, TryItOutProvider } from "@/app/ui/playgrounds/tryitout";
-import { Alert, Blockquote, Kbd, Label, TextInput } from "flowbite-react";
+import { Blockquote, Label, TextInput } from "flowbite-react";
 
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
@@ -33,7 +33,7 @@ function makeEncoderDecoder(alphabet: string[]) {
 }
 
 function createKeyedAlphabet(key: string, alphabet: string[]): string[] {
-  var newAlphabet: string[] = [];
+  const newAlphabet: string[] = [];
   const standardKey = standardize(key);
   const items = [...standardKey.split(''), ...alphabet];
   for (const ch of items) {
@@ -64,8 +64,8 @@ function getDefaultKey(alphabet: string[]): string {
 }
 
 function getSecretText(alphabet: string[]): string {
-  var key = 'APHRRODITE OURANIA';
-  var text = '1324115124314254,2242422545231422152545,4211253513232414-421551223135 4425242431';
+  let key = 'APHRRODITE OURANIA';
+  let text = '1324115124314254,2242422545231422152545,4211253513232414-421551223135 4425242431';
   if (alphabet == alphabets.greek) {
     key = 'Ἀφροδίτη Οὐρανία';
     text = '14241311252123,4514422424432533,1221421443433321152351 1112131415212223';
@@ -74,8 +74,8 @@ function getSecretText(alphabet: string[]): string {
 }
 
 function pickRandomKey(alphabet: string[], length: number): string {
-  var remaining = [...alphabet];
-  var key = ''
+  const remaining = [...alphabet];
+  let key = ''
   while (key.length < length) {
     const index = Math.floor(Math.random() * remaining.length);
     key += remaining[index];
@@ -141,7 +141,7 @@ function HideText({coverText, hideChars}: {coverText: string, hideChars: string[
     words.push(' ');
   }
 
-  let text = words.map((word, index) => 
+  const text = words.map((word, index) => 
     word + (hideChars[hiddenNumbers[index]] || '')
   ).join('');
 
@@ -187,8 +187,8 @@ function UseSection() {
       />
       <p>
         Apart from these steganographic uses, however, the original Polybius cipher is cryptographically weak.
-        We don't have a key, so if an attacker knows the Polybius cipher, they can instantly decrypt the text.
-        Let's try changing that.
+        We don&apos;t have a key, so if an attacker knows the Polybius cipher, they can instantly decrypt the text.
+        Let&apos;s try changing that.
       </p>
     </>
   );
@@ -212,13 +212,12 @@ function KeySection() {
   useEffect(() => {
     const newKey = pickRandomKey(context.alphabet, 5);
     setSecret(newKey);
-    console.log(newKey);
 
     const secretAlphabet = createKeyedAlphabet(newKey, context.alphabet);
     const secretCiphers = makeEncoderDecoder(secretAlphabet);
     const newText = secretCiphers.encode(secretText);
     setCiphertext(newText);
-  }, [context.alphabet]);
+  }, [context.alphabet, secretText]);
 
   // Update ciphers for user key
   useEffect(() => {
@@ -234,9 +233,9 @@ function KeySection() {
     <>
       <p>
         One way to add a key to a Polybius cipher is by writing a key word into the Polybius square.
-        For example, let's try the key "{defaultKey}".
+        For example, let&apos;s try the key &quot;{defaultKey}&quot;.
         We first drop any duplicate letters, and then append any unused letters in order to the key.
-        This gives us a new ordering of the alphabet: "{defaultAlphabet.join('')}".
+        This gives us a new ordering of the alphabet: &quot;{defaultAlphabet.join('')}&quot;.
         We can now plug this into the Polybius square.
       </p>
       <PolybiusTable
@@ -252,7 +251,7 @@ function KeySection() {
       </p>
       <Heading level={3} name="Attack 1: Bad Keys"/>
       <p>
-        Look at the last row of our new Polybius square. It's the same as the original.
+        Look at the last row of our new Polybius square. It&apos;s the same as the original.
         Since our key was less than 26 letters, the last few letters had to be filled in from the alphabet.
         While the first row is mostly encrypted, the last row is not.
         A smart attacker could use those letters to maybe figure out the rest of the message.
@@ -329,11 +328,6 @@ export default function Component() {
     <FootnoteProvider>
       <AlphabetProvider defaultAlphabet={alphabets.latin25}>
         <div className="flex flex-col gap-3">
-          <Alert color="warning">
-            <span className="font-medium me-1">Under Construction!</span>
-            Parts of this page are unfinished. Sections may be missing or incomplete.
-          </Alert>
-
           <Heading level={1} name="Polybius Square" />
           <p>
             The Polybius Square, popularized by the ancient greek historian Polybius, is a table used for substitution ciphers.
