@@ -1,6 +1,6 @@
 services:
   web:
-    image: steg-interactive:latest
+    image: ghcr.io/zobin8/steg-interactive:latest
     ports:
       - "8147:8147"
     environment:
